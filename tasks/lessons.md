@@ -58,6 +58,14 @@ Lista de aprendizajes acumulados sesión a sesión. Revisar al inicio de cada se
 - **Por qué:** Al hacer pull con conflictos en `index.html` (20+ marcadores), resolver a mano es lento y propenso a errores. Si Sofia confirma que el remote es la versión correcta, `git checkout --theirs <archivo>` resuelve todo en un comando.
 - **Cuándo aplica:** Cuando hay conflictos y el usuario dice "lo que vale es lo del github" o equivalente.
 
+### Regla: El "cliente que ya tengo" no es por defecto el primer usuario — validar que calce con el segmento
+- **Por qué:** Al definir Ciro (segmento ropa/calzado: variantes talle/color, estacionalidad), el reflejo fue elegir Café Aruba como primer cliente porque es el cliente pago que ya existe. Pero un café es otra operación (merma, costo de receta, ventas por franja horaria) y rompe el modelo de datos. La comodidad de "el cliente que tengo a mano" desvía el producto hacia el rubro equivocado.
+- **Cuándo aplica:** Al elegir el primer usuario/piloto de un producto. Chequear que su operación calce con el modelo de datos y las preguntas core antes de adoptarlo como caso real. Si no calza, es un test mal calzado, no el primer usuario.
+
+### Regla: Multi-tenant + RLS desde el día uno cuando es el stack default (arquitectura completa, features angostas)
+- **Por qué:** Para un producto SaaS que se vende a escala, separar "arquitectura completa" de "alcance de features" evita re-trabajo. El multi-tenant + RLS es el stack default de Sofia (Supabase Variante A) → costo marginal casi cero hacerlo bien desde el inicio. La regla NO es "construí todo": es fundación completa + features mínimas. Confundir "buena arquitectura" con "todas las features" es lo que hunde meses antes de cobrar.
+- **Cuándo aplica:** Producto SaaS greenfield propio que se vende a muchos. Invertir tiempo de diseño en los cimientos (aislamiento de tenant, RLS) sí; inflar el set de features no.
+
 ### Regla: Para revisar en local idéntico a prod, levantar un server (no abrir con `file://`)
 - **Por qué:** El logo usa ruta absoluta (`<img src="/Logo Infyn.png">`) y `vercel.json` tiene `cleanUrls`. Abriendo el `index.html` directo (protocolo `file://`) el logo se ve roto y las rutas absolutas/`/ejemplos` no resuelven — parece un bug del sitio cuando no lo es. Levantando `python3 -m http.server 8000` desde la carpeta del proyecto y abriendo `http://localhost:8000`, las rutas absolutas resuelven igual que en Vercel.
 - **Cuándo aplica:** Cuando Sofia quiere ver cambios en local antes de deployar. Nunca diagnosticar "logo roto / 404" sobre un render `file://`.

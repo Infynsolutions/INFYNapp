@@ -57,6 +57,29 @@ Sesión de mantenimiento/ops. El cambio más importante fue el `vercel.json` con
 ### Review
 Sesión de refinamiento puntual del hero. El problema no era estético sino estructural: la columna izquierda quedaba vacía debajo de los botones y el subline se había perdido en un merge previo (el CSS lo seguía estilando). Se resolvió completando el bloque en vez de reinventarlo, respetando toda la intención acumulada (Bricolage+Instrument, aurora, corner marks, tarjeta Ciro, decisión de reducir verde). El acento verde volvió solo en los puntos de la barra de prueba — escasez intencional, no decoración. Gotcha capturado: revisar en local con server, no `file://` (logo roto / 404 falsos).
 
+## Sesión 2026-06-02 — Ciro: re-scope de producto + design doc (cerrada)
+
+### Hecho
+- [x] Office-hours (YC product diagnostic) sobre Ciro a partir de `Diagnostico_Ciro.txt`
+- [x] Re-scope: Ciro es el producto (sistema Ventas+Stock+Dashboard + asesor IA), no la capa de chat de Argos
+- [x] Segmento fijado en ropa/calzado; Café Aruba descartado como primer usuario (gastronomía no calza)
+- [x] Wedge elegido: el sistema armado, multi-tenant+RLS desde día uno (arquitectura completa, features angostas)
+- [x] Ingesta definida: import de Excel flexible (mapeo asistido + cuarentena de filas) = camino crítico
+- [x] Design doc escrito, revisado adversarialmente (9/14 issues) y **aprobado** (`~/.gstack/projects/sofiafbravo-infyn/sofia-main-design-20260602-092429.md`, supersede al de mayo)
+- [x] Bitácora del producto creada en Obsidian (`Proyectos/INFYN/Ciro.md`)
+
+### Pendiente (eng-review interrumpida en decisión 1)
+- [ ] **Cerrar decisión 1:** modelo de datos de variantes (propuesto Product + ProductVariant, stock a nivel variante)
+- [ ] **Cerrar decisión 2:** RPC atómico venta→StockMovement (propuesto plpgsql `registrar_venta()` vía supabase.rpc, tenant de auth.uid())
+- [ ] **Cerrar decisión 3:** contrato de tool-calling de Ciro (funciones acotadas, tenant server-side, nunca SQL libre)
+- [ ] **The assignment (antes de codear):** conseguir el Excel de ventas REAL de un dueño de ropa/calzado y ver si el import lo puede interpretar
+- [ ] Reconciliar pricing ($12/$25 vs $35) para el producto Ciro
+- [ ] **Bloqueantes duros:** crédito Anthropic API (el M1 quedó sin crédito) + upgrade Supabase Pro
+- [ ] Abandonar/limpiar el backend viejo de Argos (`backend/` FastAPI) — stack nuevo es Next.js + Supabase
+
+### Review
+Sesión de definición de producto, sin código. El cambio de fondo: Ciro deja de ser "la capa de chat sobre Argos" y pasa a ser **el producto integral** (sistema + IA). La corrección más valiosa fue de segmento: el reflejo de elegir Café Aruba como primer cliente chocaba con el diagnóstico (ropa/calzado, variantes, temporada) — un café es otra operación. Sofia defendió con argumento construir la arquitectura multi-tenant completa desde el día uno (su stack default, costo marginal casi cero). Quedó claro que el riesgo del producto no es la IA ni la arquitectura, sino que el import de Excel sobreviva al Excel real de un comercio.
+
 ## Backlog (próximas sesiones)
 
 - [ ] WhatsApp como escalón blando además de "agendar diagnóstico"
