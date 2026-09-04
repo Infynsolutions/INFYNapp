@@ -1,0 +1,819 @@
+<title>Metodología Copensador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #F4F6F2;
+    --surface: #FFFFFF;
+    --surface-2: #EAEFEA;
+    --ink: #10231C;
+    --ink-2: #33473F;
+    --muted: #66766E;
+    --line: #D8E0DA;
+    --line-strong: #B9C6BE;
+    --accent: #0F8A5F;
+    --accent-strong: #0A6647;
+    --accent-ink: #FFFFFF;
+    --accent-soft: #DDF0E6;
+    --highlight: #0F5C42;
+    --highlight-ink: #EAF6EF;
+    --highlight-muted: #A9CDBB;
+    --warn: #B7791F;
+    --warn-soft: #F6ECD6;
+    --bad: #B4423A;
+    --bad-soft: #F5E1DE;
+    --ok: #1F7A4D;
+    --ok-soft: #DCEFE3;
+    --shadow: 0 1px 2px rgba(16,35,28,.06), 0 8px 24px rgba(16,35,28,.06);
+    --display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+    --body: "Inter", "Helvetica Neue", Arial, sans-serif;
+    --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+    --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0B1512;
+      --surface: #12201A;
+      --surface-2: #182A22;
+      --ink: #E8EFEA;
+      --ink-2: #C3D0C8;
+      --muted: #8FA197;
+      --line: #22352C;
+      --line-strong: #34493F;
+      --accent: #34C08A;
+      --accent-strong: #5AD3A3;
+      --accent-ink: #07130E;
+      --accent-soft: #143528;
+      --highlight: #1B7A55;
+      --highlight-ink: #F0FAF4;
+      --highlight-muted: #BCE6D1;
+      --warn: #E0A64A;
+      --warn-soft: #3A2E14;
+      --bad: #E27068;
+      --bad-soft: #3E1F1C;
+      --ok: #4CC98C;
+      --ok-soft: #153826;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0B1512;
+    --surface: #12201A;
+    --surface-2: #182A22;
+    --ink: #E8EFEA;
+    --ink-2: #C3D0C8;
+    --muted: #8FA197;
+    --line: #22352C;
+    --line-strong: #34493F;
+    --accent: #34C08A;
+    --accent-strong: #5AD3A3;
+    --accent-ink: #07130E;
+    --accent-soft: #143528;
+    --highlight: #1B7A55;
+    --highlight-ink: #F0FAF4;
+    --highlight-muted: #BCE6D1;
+    --warn: #E0A64A;
+    --warn-soft: #3A2E14;
+    --bad: #E27068;
+    --bad-soft: #3E1F1C;
+    --ok: #4CC98C;
+    --ok-soft: #153826;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent-strong); text-decoration: none; }
+  a:hover, a:focus-visible { text-decoration: underline; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+  .prose { max-width: 68ch; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+    margin: 0 0 12px;
+  }
+  h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; margin: 0; }
+  h1 { font-size: clamp(34px, 5vw, 56px); font-weight: 600; line-height: 1.05; letter-spacing: -.015em; }
+  h2 { font-size: clamp(26px, 3.2vw, 34px); font-weight: 600; line-height: 1.15; letter-spacing: -.01em; }
+  h3 { font-size: 20px; font-weight: 600; line-height: 1.25; }
+  h4 { font-size: 15px; font-weight: 600; }
+  p { margin: 0; }
+  .lede { font-size: 19px; line-height: 1.5; color: var(--ink-2); max-width: 60ch; }
+  em.k { font-style: normal; color: var(--accent-strong); }
+
+  /* ---------- masthead ---------- */
+  .masthead { padding: 72px 0 40px; border-bottom: 1px solid var(--line); }
+  .masthead .meta {
+    display: flex; flex-wrap: wrap; gap: 8px 22px;
+    margin-top: 28px;
+    font-family: var(--mono); font-size: 12px; color: var(--muted);
+  }
+  .masthead .meta b { color: var(--ink-2); font-weight: 500; }
+
+  /* ---------- etapas map ---------- */
+  .mapa { padding: 56px 0 24px; }
+  .mapa-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 28px; }
+  .etapas { display: grid; grid-template-columns: repeat(5, minmax(200px, 1fr)); gap: 12px; overflow-x: auto; padding-bottom: 8px; }
+  .etapa {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px 18px 16px;
+    display: grid; grid-template-rows: auto auto 1fr auto auto; gap: 10px;
+    min-height: 100%;
+  }
+  .etapa .n { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: var(--accent-strong); }
+  .etapa h3 { font-size: 21px; }
+  .etapa p { font-size: 13.5px; color: var(--ink-2); line-height: 1.5; }
+  .etapa .pasos-tag { font-family: var(--mono); font-size: 11.5px; color: var(--muted); padding-top: 10px; border-top: 1px solid var(--line); }
+  .etapa .sello { font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .etapa.hl { background: var(--highlight); border-color: var(--highlight); color: var(--highlight-ink); box-shadow: var(--shadow); }
+  .etapa.hl .n, .etapa.hl .sello, .etapa.hl .pasos-tag { color: var(--highlight-muted); }
+  .etapa.hl p { color: var(--highlight-ink); }
+  .etapa.hl .pasos-tag { border-top-color: rgba(255,255,255,.18); }
+  .mapa-note { margin-top: 20px; font-size: 14.5px; color: var(--muted); max-width: 72ch; }
+
+  /* ---------- toc ---------- */
+  .toc { padding: 28px 0 8px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 32px; }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 6px 28px; counter-reset: none; }
+  .toc li a { display: grid; grid-template-columns: 30px 1fr; gap: 10px; padding: 6px 0; color: var(--ink); font-size: 14.5px; border-radius: 4px; }
+  .toc li a span.n { font-family: var(--mono); font-size: 12px; color: var(--accent-strong); padding-top: 3px; }
+  .toc li a:hover { text-decoration: none; color: var(--accent-strong); }
+
+  /* ---------- pasos ---------- */
+  .pasos { padding: 40px 0 16px; }
+  .paso {
+    display: grid; grid-template-columns: 104px 1fr; gap: 0 32px;
+    padding: 44px 0 48px;
+    border-bottom: 1px solid var(--line);
+  }
+  .paso:last-child { border-bottom: 0; }
+  .paso .rail { position: sticky; top: 24px; align-self: start; display: grid; gap: 10px; }
+  .paso .num { font-family: var(--display); font-size: 52px; font-weight: 700; line-height: 1; color: var(--accent); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+  .chip {
+    display: inline-block; font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+    padding: 4px 8px; border-radius: 4px; border: 1px solid var(--line-strong); color: var(--ink-2); white-space: nowrap; width: fit-content;
+  }
+  .chip.et03 { background: var(--highlight); border-color: var(--highlight); color: var(--highlight-ink); }
+  .paso .body { max-width: 72ch; }
+  .paso h2 { margin-bottom: 8px; }
+  .paso .frase { font-family: var(--serif); font-size: 22px; line-height: 1.3; color: var(--ink-2); margin-bottom: 22px; }
+  .paso .que { display: grid; gap: 12px; font-size: 16px; color: var(--ink); }
+  .paso .que p strong { font-weight: 600; }
+  .quote {
+    margin: 22px 0 6px; padding: 4px 0 4px 20px; border-left: 3px solid var(--accent);
+    font-family: var(--serif); font-style: italic; font-size: 20px; line-height: 1.35; color: var(--ink-2);
+  }
+  .quote cite { display: block; margin-top: 8px; font-family: var(--mono); font-style: normal; font-size: 11.5px; letter-spacing: .08em; color: var(--muted); text-transform: uppercase; }
+
+  dl.meta {
+    margin: 26px 0 0; padding: 0;
+    display: grid; grid-template-columns: 132px 1fr;
+    border-top: 1px solid var(--line-strong);
+  }
+  dl.meta dt, dl.meta dd { margin: 0; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; }
+  dl.meta dt { font-family: var(--mono); font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding-top: 14px; }
+  dl.meta dd { color: var(--ink); line-height: 1.5; }
+  dl.meta dt.gate { color: var(--accent-strong); font-weight: 500; }
+  dl.meta dd.gate { font-weight: 500; }
+  .st { display: inline-block; font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; margin-right: 6px; vertical-align: 1px; }
+  .st.ok { background: var(--ok-soft); color: var(--ok); }
+  .st.mid { background: var(--warn-soft); color: var(--warn); }
+  .st.no { background: var(--bad-soft); color: var(--bad); }
+  ul.tight { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 6px; }
+  ul.tight li { padding-left: 4px; }
+
+  /* the four axes inside paso 5 */
+  .ejes { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; margin: 22px 0 6px; }
+  .eje { background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 8px; padding: 14px 14px 12px; display: grid; gap: 6px; }
+  .eje .n { font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em; color: var(--accent-strong); }
+  .eje h4 { font-family: var(--display); font-size: 18px; }
+  .eje .q { font-size: 13.5px; color: var(--ink-2); line-height: 1.45; }
+  .eje .c { font-size: 12.5px; color: var(--muted); line-height: 1.45; padding-top: 8px; border-top: 1px dashed var(--line); }
+
+  .orden { display: grid; grid-template-columns: 34px 1fr; gap: 6px 12px; margin: 18px 0 4px; font-size: 14.5px; }
+  .orden .k { font-family: var(--mono); font-size: 12px; color: var(--accent-strong); padding-top: 3px; }
+
+  /* ---------- inventory ---------- */
+  .section { padding: 56px 0 24px; border-top: 1px solid var(--line); }
+  .section-head { margin-bottom: 22px; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 500; background: var(--surface-2); }
+  tr:last-child td { border-bottom: 0; }
+  td.n { font-family: var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; width: 40px; }
+  td.p { font-family: var(--mono); font-size: 12.5px; color: var(--ink-2); white-space: nowrap; }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; font-size: 13px; color: var(--muted); }
+
+  /* ---------- ejemplo 0 ---------- */
+  .semanas { display: grid; grid-template-columns: 72px 1fr; gap: 0 20px; border-top: 1px solid var(--line-strong); max-width: 78ch; }
+  .semanas > div { padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+  .semanas .w { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; color: var(--accent-strong); text-transform: uppercase; padding-top: 17px; }
+  .semanas .d b { font-weight: 600; }
+  .semanas .d small { display: block; color: var(--muted); font-size: 13.5px; margin-top: 3px; }
+
+  .callout { background: var(--accent-soft); border-radius: 10px; padding: 18px 22px; margin-top: 26px; max-width: 78ch; font-size: 15px; color: var(--ink); }
+  .callout b { font-weight: 600; }
+
+  footer { padding: 40px 0 64px; border-top: 1px solid var(--line); margin-top: 40px; font-size: 13.5px; color: var(--muted); }
+  footer p + p { margin-top: 6px; }
+
+  /* ---------- print ---------- */
+  @page { size: A4; margin: 15mm 14mm 17mm; }
+  @media print {
+    :root { color-scheme: light; }
+    * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    body { background: #FFFFFF; font-size: 12.5px; line-height: 1.5; }
+    .wrap { padding: 0; max-width: none; }
+    h1 { font-size: 34px; }
+    h2 { font-size: 22px; }
+    .lede { font-size: 14px; }
+    .masthead { padding: 8px 0 22px; }
+    .masthead .meta { margin-top: 16px; font-size: 10.5px; }
+    .mapa { padding: 26px 0 8px; }
+    .etapas { grid-template-columns: repeat(5, 1fr); gap: 7px; overflow: visible; padding-bottom: 0; }
+    .etapa { padding: 11px 10px 9px; gap: 6px; border-radius: 7px; break-inside: avoid; }
+    .etapa h3 { font-size: 14px; }
+    .etapa p { font-size: 10px; line-height: 1.4; }
+    .etapa .pasos-tag { font-size: 9.5px; padding-top: 6px; }
+    .etapa .sello { font-size: 8.5px; }
+    .mapa-note { font-size: 11.5px; margin-top: 12px; }
+    .toc { margin-top: 18px; padding: 14px 0 6px; }
+    .toc ol { grid-template-columns: repeat(3, 1fr); gap: 1px 18px; }
+    .toc li a { font-size: 10.5px; padding: 2px 0; grid-template-columns: 24px 1fr; gap: 6px; }
+    .toc li a span.n { font-size: 10px; padding-top: 2px; }
+    .pasos { padding: 10px 0 0; }
+    .paso { display: block; padding: 22px 0 24px; }
+    .paso .rail { position: static; display: flex; align-items: center; gap: 12px; margin-bottom: 8px; break-after: avoid; }
+    .paso .num { font-size: 32px; }
+    .paso .body { max-width: none; }
+    .paso h2 { break-after: avoid; }
+    .paso .frase { font-size: 17px; margin-bottom: 12px; break-after: avoid; }
+    .paso .que { font-size: 12.5px; gap: 8px; }
+    .quote { font-size: 15.5px; margin: 14px 0 4px; break-inside: avoid; }
+    dl.meta { margin-top: 16px; break-inside: auto; }
+    dl.meta dt, dl.meta dd { padding: 7px 0; font-size: 11.5px; }
+    dl.meta dt { font-size: 9.5px; padding-top: 9px; break-after: avoid; }
+    dl.meta dd { break-inside: avoid; }
+    .section .lede { font-size: 13px; }
+    .semanas > div { padding: 7px 0; }
+    .ejes { gap: 7px; margin: 12px 0 4px; grid-template-columns: repeat(4, 1fr); }
+    .eje { padding: 10px 10px 8px; break-inside: avoid; }
+    .eje h4 { font-size: 14px; }
+    .eje .q { font-size: 11px; }
+    .eje .c { font-size: 10px; }
+    .orden { font-size: 12px; gap: 4px 10px; }
+    .section { padding: 0 0 12px; border-top: 0; break-before: page; }
+    .section-head { margin-bottom: 14px; }
+    .table-wrap { overflow: visible; }
+    table { font-size: 11px; }
+    th, td { padding: 7px 9px; }
+    thead { display: table-header-group; }
+    tr { break-inside: avoid; }
+    .legend { font-size: 11px; }
+    .semanas > div { padding: 9px 0; font-size: 12.5px; }
+    .semanas .d small { font-size: 11px; }
+    .callout { padding: 12px 16px; margin-top: 16px; font-size: 12.5px; break-inside: avoid; }
+    footer { padding: 18px 0 0; margin-top: 20px; font-size: 10.5px; }
+    a { color: inherit; }
+  }
+
+  @media (max-width: 760px) {
+    .wrap { padding: 0 18px; }
+    .masthead { padding-top: 44px; }
+    .paso { grid-template-columns: 1fr; gap: 14px; padding: 36px 0; }
+    .paso .rail { position: static; grid-auto-flow: column; align-items: center; justify-content: start; gap: 14px; }
+    .paso .num { font-size: 40px; }
+    dl.meta { grid-template-columns: 1fr; }
+    dl.meta dt { padding-bottom: 0; border-bottom: 0; }
+    dl.meta dd { padding-top: 4px; }
+    .semanas { grid-template-columns: 1fr; }
+    .semanas .w { padding-bottom: 0; border-bottom: 0; }
+  }
+</style>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="eyebrow">INFYN · Metodología de implementación · v0 — 2026-09-04</p>
+    <h1>De un sistema con datos<br>a una dirección que pregunta.</h1>
+    <p class="lede" style="margin-top:20px">Doce pasos para llevar a un cliente desde «tengo un sistema con datos» hasta «le pregunto a la IA y me contesta con los criterios de mi empresa». Adaptado del método de Antonio Sánchez De Boeck al stack y al modelo de negocio de INFYN. Se ejecuta entero por primera vez sobre <em class="k">Bestani Neumáticos</em>, el ejemplo 0.</p>
+    <div class="meta">
+      <span><b>Cada paso</b> tiene la misma forma: qué se hace · entrada · salida · gate · qué hay que tener · quién</span>
+      <span><b>El gate</b> es un mecanismo de forzado: si no se cumple, el paso siguiente no arranca</span>
+    </div>
+  </div>
+</header>
+
+<section class="mapa">
+  <div class="wrap">
+    <div class="mapa-head">
+      <div>
+        <p class="eyebrow">El esquema en una sola vista</p>
+        <h2>Cinco etapas. La tercera es la que <em class="k">casi nadie hace</em>.</h2>
+      </div>
+    </div>
+    <div class="etapas">
+      <div class="etapa">
+        <span class="n">ETAPA 01</span>
+        <h3>Origen</h3>
+        <p>Los sistemas operativos: ventas, compras, tesorería, sueldos, contabilidad. Cada uno con su propia lógica y su propio corte.</p>
+        <span class="pasos-tag">Pasos 1 · 2 · 3</span>
+        <span class="sello">extracción programada</span>
+      </div>
+      <div class="etapa">
+        <span class="n">ETAPA 02</span>
+        <h3>Capa consultable</h3>
+        <p>Un solo lugar, un solo grano, una sola clave. Consultable sin pedirle permiso a nadie y sin frenar la operación.</p>
+        <span class="pasos-tag">Paso 4</span>
+        <span class="sello">refresco por cadencia</span>
+      </div>
+      <div class="etapa hl">
+        <span class="n">ETAPA 03</span>
+        <h3>Auditoría de la evidencia</h3>
+        <p>Antes de interpretar un número, calificar el dato que lo sostiene. Cuatro ejes sobre la base cruda, con puntaje y con la lista de lo que no se puede afirmar.</p>
+        <span class="pasos-tag">Pasos 5 · 6 · 7</span>
+        <span class="sello">audit file</span>
+      </div>
+      <div class="etapa">
+        <span class="n">ETAPA 04</span>
+        <h3>Capa de cálculo</h3>
+        <p>Las definiciones del negocio escritas una vez: margen, liquidez, cobertura, vencido. El mismo criterio para todos.</p>
+        <span class="pasos-tag">Paso 8</span>
+        <span class="sello">reglas explícitas</span>
+      </div>
+      <div class="etapa">
+        <span class="n">ETAPA 05</span>
+        <h3>Copensador</h3>
+        <p>La dirección pregunta en su propio idioma. La IA responde con los criterios de la empresa, no con los suyos.</p>
+        <span class="pasos-tag">Pasos 9 · 10 · 11 · 12</span>
+        <span class="sello">IA gobernada, no libre</span>
+      </div>
+    </div>
+    <p class="mapa-note">Las cinco etapas son la arquitectura que se construye. Los doce pasos de abajo son el trabajo de consultoría que la construye — con el paso 0 antes de todo, porque sin él no hay proyecto.</p>
+  </div>
+</section>
+
+<nav class="toc">
+  <div class="wrap">
+    <ol>
+      <li><a href="#p0"><span class="n">00</span><span>Gate comercial — ¿hay una decisión que se tomó tarde?</span></a></li>
+      <li><a href="#p1"><span class="n">01</span><span>Censo de fuentes</span></a></li>
+      <li><a href="#p2"><span class="n">02</span><span>Veredicto de origen</span></a></li>
+      <li><a href="#p3"><span class="n">03</span><span>Parametrización arrastrada</span></a></li>
+      <li><a href="#p4"><span class="n">04</span><span>La capa consultable</span></a></li>
+      <li><a href="#p5"><span class="n">05</span><span>Auditoría de la evidencia</span></a></li>
+      <li><a href="#p6"><span class="n">06</span><span>Formulario de entrenamiento, uno por cabeza</span></a></li>
+      <li><a href="#p7"><span class="n">07</span><span>Segunda auditoría de cobertura</span></a></li>
+      <li><a href="#p8"><span class="n">08</span><span>La capa de cálculo</span></a></li>
+      <li><a href="#p9"><span class="n">09</span><span>El pack de instrucciones del agente</span></a></li>
+      <li><a href="#p10"><span class="n">10</span><span>Validación en tres pestañas</span></a></li>
+      <li><a href="#p11"><span class="n">11</span><span>Entrega y gestión del cambio</span></a></li>
+      <li><a href="#p12"><span class="n">12</span><span>Cadencia</span></a></li>
+      <li><a href="#inventario"><span class="n">→</span><span>Qué hay que tener o agregar</span></a></li>
+      <li><a href="#ejemplo0"><span class="n">→</span><span>Ejemplo 0 · Bestani</span></a></li>
+    </ol>
+  </div>
+</nav>
+
+<section class="pasos">
+  <div class="wrap">
+
+    <!-- ===== PASO 0 ===== -->
+    <article class="paso" id="p0">
+      <div class="rail">
+        <span class="num">00</span>
+        <span class="chip">antes de todo</span>
+      </div>
+      <div class="body">
+        <h2>Gate comercial — ¿hay una decisión que se tomó tarde?</h2>
+        <p class="frase">Antes de tocar un dato, una sola pregunta al dueño. Si no tiene respuesta, no hay proyecto.</p>
+        <div class="que">
+          <p><strong>Qué se hace.</strong> Se le pide a la dirección que cuente una decisión que tomó tarde o mal porque se enteró tarde: qué le costó, en plata, en tiempo o en oportunidad perdida, y con cuánta anticipación tendría que haberlo sabido. La respuesta se escribe con su número. Es la misma pregunta que ya hace <code>/cliente-descubrimiento</code> con la fuga en pesos: acá se reusa, no se duplica.</p>
+          <p>La pregunta hace dos cosas a la vez: justifica el proyecto con el ejemplo del propio cliente, y da el ancla del precio — el costo de no hacer nada.</p>
+        </div>
+        <blockquote class="quote">Todo proyecto analítico se justifica acá. Si no hay ninguna decisión tardía que contar, no hace falta el proyecto.<cite>Sánchez De Boeck · formulario de entrenamiento, bloque 4</cite></blockquote>
+        <dl class="meta">
+          <dt>Entrada</dt><dd>Una conversación con el dueño o la dirección.</dd>
+          <dt>Salida</dt><dd>Una o más decisiones tardías, con su costo en número, escritas en el expediente.</dd>
+          <dt class="gate">Gate</dt><dd class="gate">Sin decisión tardía cuantificada, no se avanza.</dd>
+          <dt>Hay que tener</dt><dd><span class="st mid">parcial</span>El guion de descubrimiento existe; falta sumarle esta pregunta como obligatoria.</dd>
+          <dt>Quién</dt><dd>Seba o Sofi.</dd>
+        </dl>
+      </div>
+    </article>
+
+    <!-- ===== PASO 1 ===== -->
+    <article class="paso" id="p1">
+      <div class="rail">
+        <span class="num">01</span>
+        <span class="chip">etapa 01 · origen</span>
+      </div>
+      <div class="body">
+        <h2>Censo de fuentes</h2>
+        <p class="frase">«Dame de dónde sacás toda la información.» Todo, con su corte, y sin descartar lo informal.</p>
+        <div class="que">
+          <p><strong>Qué se hace.</strong> Se pide cada fuente donde vive un dato del negocio y se clasifica en formal (el sistema, la facturación, la contabilidad) e informal (un Excel, un cuaderno, un grupo de WhatsApp, la cabeza de alguien). Lo informal no se descarta: se normaliza o se declara fuera de alcance por escrito. Y por cada fuente se anota su <strong>fecha de corte</strong> — ninguna cierra el mismo día, y eso después decide de cuándo habla cada respuesta.</p>
+          <p>Cuando el sistema lo construyó INFYN, este paso no se saltea: siempre hay fuentes alrededor del sistema — el sistema viejo del que se migraron saldos, los Excel del proveedor, la planilla de caja, el WhatsApp del encargado. El censo es de lo que rodea al sistema, no solo del sistema.</p>
+        </div>
+        <dl class="meta">
+          <dt>Entrada</dt><dd>Acceso al cliente y a sus referentes.</dd>
+          <dt>Salida</dt><dd>Inventario de fuentes: nombre · dueño · formato · qué hecho registra · formal/informal · corte · si tiene plata adentro.</dd>
+          <dt class="gate">Gate</dt><dd class="gate">El archivo real en mano, no su descripción. No cierra con una fuente pendiente que tenga dinero adentro.</dd>
+          <dt>Hay que tener</dt><dd><span class="st mid">parcial</span><code>/cliente-relevamiento</code> ya lo exige; faltan las columnas de corte y formal/informal.</dd>
+          <dt>Quién</dt><dd>Sofi.</dd>
+        </dl>
+      </div>
+    </article>
+
+    <!-- ===== PASO 2 ===== -->
+    <article class="paso" id="p2">
+      <div class="rail">
+        <span class="num">02</span>
+        <span class="chip">etapa 01 · origen</span>
+      </div>
+      <div class="body">
+        <h2>Veredicto de origen — ¿alcanza, o se arregla primero?</h2>
+        <p class="frase">Si el origen no sirve, no se construye encima. Se arregla el origen.</p>
+        <div class="que">
+          <p><strong>Qué se hace.</strong> Por cada fuente del censo se decide: sirve · se reparametriza · se reemplaza · se formaliza (lo informal que hay que meter al sistema). La regla de selección es la del vertical: manda el software específico del rubro, y la contabilidad se elige para conectarse a él. Su caso: una cadena de cafeterías con un sistema por local y todo lo demás en Excel tercerizado a un contador — antes de un solo panel le instalaron un ERP contable simple conectado a los locales y un sistema de producción hecho desde cero.</p>
+        </div>
+        <blockquote class="quote">Por más inteligencia artificial que le pongas, si la información no está, sale mal.<cite>Sánchez De Boeck · webinar 2026-09-01</cite></blockquote>
+        <dl class="meta">
+          <dt>Entrada</dt><dd>El inventario del paso 1.</dd>
+          <dt>Salida</dt><dd>Un veredicto por fuente y, si hace falta, un plan de remediación con fecha.</dd>
+          <dt class="gate">Gate</dt><dd class="gate">Ninguna fuente con plata adentro queda en «informal» sin plan.</dd>
+          <dt>Hay que tener</dt><dd><span class="st ok">existe</span>Es criterio, no herramienta. Conviene una lista de verticales y contables por rubro.</dd>
+          <dt>Quién</dt><dd>Sofi.</dd>
+        </dl>
+      </div>
+    </article>
+
+    <!-- ===== PASO 3 ===== -->
+    <article class="paso" id="p3">
+      <div class="rail">
+        <span class="num">03</span>
+        <span class="chip">etapa 01 · origen</span>
+      </div>
+      <div class="body">
+        <h2>Revisar la parametrización arrastrada</h2>
+        <p class="frase">El cliente cambió tres veces de sistema y conservó el mismo plan de cuentas «para no perder los datos».</p>
+        <div class="que">
+          <p><strong>Qué se hace.</strong> Se revisan los cuatro maestros estructurales — plan de cuentas · catálogo de artículos (categorías, marcas, atributos) · sucursales y centros de costo · tipos de cliente — con una sola pregunta por cada uno: ¿esta estructura la decidió alguien para <em>este</em> negocio, o vino heredada de la migración anterior? Lo que no se arregla acá aparece en el eje 01 de la auditoría con puntaje.</p>
+        </div>
+        <blockquote class="quote">Si antes lo tenías mal parametrizado, cada vez que cambiaste de sistema hiciste exactamente lo mismo.<cite>Sánchez De Boeck · webinar 2026-09-01</cite></blockquote>
+        <dl class="meta">
+          <dt>Entrada</dt><dd>Acceso de lectura a los maestros.</dd>
+          <dt>Salida</dt><dd>Lista de maestros heredados con su problema y una decisión: se reparametriza antes o se declara como limitación.</dd>
+          <dt class="gate">Gate</dt><dd class="gate">Ninguno duro. Lo que se deja pasar lo cobra la auditoría.</dd>
+          <dt>Hay que tener</dt><dd><span class="st no">falta</span>Un checklist de los cuatro maestros. Chico.</dd>
+          <dt>Quién</dt><dd>Sofi.</dd>
+        </dl>
+      </div>
+    </article>
+
+    <!-- ===== PASO 4 ===== -->
+    <article class="paso" id="p4">
+      <div class="rail">
+        <span class="num">04</span>
+        <span class="chip">etapa 02 · capa consultable</span>
+      </div>
+      <div class="body">
+        <h2>La capa consultable</h2>
+        <p class="frase">Un solo lugar, un solo grano, una sola clave. Y nunca sobre las tablas que están facturando.</p>
+        <div class="que">
+          <p><strong>Qué se hace.</strong> Él extrae del ERP a un data warehouse porque consultar el sistema operativo en vivo «lo mata: un local lleno de gente facturando y vos bajándole el rendimiento». En INFYN, con la base propia en Supabase, el equivalente es un schema <code>analytics</code> con vistas, un rol de solo lectura que ve únicamente ese schema, tiempos de espera acotados, y — si la lectura alguna vez frena la operación — una réplica.</p>
+          <p>Las dos decisiones de diseño de este paso: <strong>el grano</strong> (qué es una fila del hecho principal) y <strong>las dimensiones conformadas</strong> — el mismo eje, idéntico en ventas, tesorería y stock. Sin un eje compartido no hay cruce entre áreas, con cualquier cantidad de datos.</p>
+          <p>Y sale de acá el <strong>diccionario de datos generado desde la base</strong> — tablas, columnas, filas, comentarios — que es lo que él muestra como «37 tablas · 350 columnas · 1.333.673 registros», y lo que después alimenta el pack del agente sin que se desactualice.</p>
+        </div>
+        <dl class="meta">
+          <dt>Entrada</dt><dd>El esquema operativo, con el veredicto del paso 2.</dd>
+          <dt>Salida</dt><dd>Schema <code>analytics</code> con las vistas mínimas, rol de solo lectura, y el diccionario generado.</dd>
+          <dt class="gate">Gate</dt><dd class="gate">El agente nunca recibe credenciales sobre el schema operativo. Se verifica, no se supone.</dd>
+          <dt>Hay que tener</dt><dd><span class="st no">falta</span>El script del schema y el rol (SQL escrito en la spec, nunca ejecutado) · <span class="st no">falta</span>el generador del diccionario.</dd>
+          <dt>Quién</dt><dd>Sofi.</dd>
+        </dl>
+      </div>
+    </article>
+
+    <!-- ===== PASO 5 ===== -->
+    <article class="paso" id="p5">
+      <div class="rail">
+        <span class="num">05</span>
+        <span class="chip et03">etapa 03 · audit file</span>
+      </div>
+      <div class="body">
+        <h2>Auditoría de la evidencia</h2>
+        <p class="frase">Antes de interpretar un número, calificar el dato que lo sostiene. Con puntaje, y con la lista de lo que no se puede afirmar.</p>
+        <div class="que">
+          <p><strong>Qué se hace.</strong> Cuatro ejes, tres controles por eje, sobre la base cruda y antes de escribir una sola métrica. Cada eje responde una pregunta distinta y termina con un score sobre 100 y una lista de <strong>limitaciones al alcance</strong>: las preguntas que el agente no va a poder contestar mientras ese problema exista. El score no aprueba ni reprueba — decide dónde poner las horas.</p>
+        </div>
+        <div class="ejes">
+          <div class="eje">
+            <span class="n">EJE 01</span>
+            <h4>Aprovechamiento</h4>
+            <p class="q">El campo existe y está habilitado. ¿Viene cargado?</p>
+            <p class="c">Se mide sobre: campos de trazabilidad poblados vs. habilitados · contraparte en cada movimiento · imputación que permite conciliar.</p>
+          </div>
+          <div class="eje">
+            <span class="n">EJE 02</span>
+            <h4>Cobertura</h4>
+            <p class="q">¿Sobre qué porción del universo estoy opinando?</p>
+            <p class="c">Se mide sobre: maestro contra movimiento · períodos completos en la ventana · transacciones atribuibles a un tercero.</p>
+          </div>
+          <div class="eje">
+            <span class="n">EJE 03</span>
+            <h4>Frescura</h4>
+            <p class="q">¿De cuándo habla este dato? ¿Se adelanta al hecho?</p>
+            <p class="c">Se mide sobre: rezago hecho ↔ registro · homogeneidad del corte entre fuentes · registros anticipados.</p>
+          </div>
+          <div class="eje">
+            <span class="n">EJE 04</span>
+            <h4>Veracidad</h4>
+            <p class="q">¿Dos caminos independientes llegan al mismo número?</p>
+            <p class="c">Se mide sobre: cierre de la partida doble · tie-out sistema ↔ mayor · unicidad efectiva de las claves.</p>
+          </div>
+        </div>
+        <div class="que">
+          <p><strong>El orden de ejecución</strong> no es el de la lámina:</p>
+        </div>
+        <div class="orden">
+          <span class="k">1</span><span>Se declara el <strong>universo auditado</strong>: cuántas tablas, cuántos registros, fecha de corte, y qué queda afuera con nombre.</span>
+          <span class="k">2</span><span><strong>Eje 04 primero</strong> cuando hay contabilidad o stock: es el que se prueba sin salir del dato y el más duro de discutir. Y arranca por lo físico — «si me dice 100 unidades, tengo que tener 100; si me dice que un cliente debe 2 millones, 2 millones tiene que ser el saldo» — antes que por el mayor.</span>
+          <span class="k">3</span><span><strong>Eje 03</strong>: latencia, homogeneidad del corte y registros anticipados. Él lo ejemplifica con tesorería: «¿la cuenta colectora de las tarjetas la conciliás todos los días? — no tengo idea, tomamos la acreditación. Entonces no podés hacer ninguna proyección financiera».</span>
+          <span class="k">4</span><span><strong>Eje 01</strong>: censo de poblamiento, <strong>separando el vacío por diseño del vacío por omisión</strong> antes de puntuar. Su propia auditoría dio 87,2 % de aprovechamiento cuando el real era 95,7 %: la mitad de los vacíos eran correctos — una factura no tiene motivo de anulación.</span>
+          <span class="k">5</span><span><strong>Eje 02, primera pasada</strong>. Queda abierto: se cierra en el paso 7, contra lo que el cliente quiera medir.</span>
+          <span class="k">6</span><span>Score global y las <strong>limitaciones al alcance</strong> por eje, escritas.</span>
+        </div>
+        <blockquote class="quote">Tu sistema no está mal construido. Tiene una sola omisión, repetida medio millón de veces, y no se arregla con desarrollo. Se arregla decidiendo que se pide el dato.<cite>Cómo se le cuenta al cliente — la forma que evita que suene a auditoría hostil</cite></blockquote>
+        <dl class="meta">
+          <dt>Entrada</dt><dd>La capa del paso 4 y el diccionario. Y datos reales: una copia fresca de producción o un rol de solo lectura — nunca una base de prueba con basura de verificadores.</dd>
+          <dt>Salida</dt><dd>Cuatro informes (uno por eje) + lámina resumen + la lista de limitaciones al alcance. Con fecha: se repite en cada hito.</dd>
+          <dt class="gate">Gate</dt><dd class="gate">Ninguna limitación al alcance puede quedar sin escribir. Son la restricción dura que después entra al agente.</dd>
+          <dt>Hay que tener</dt><dd><span class="st no">falta</span>Skills de auditoría, uno por eje · <span class="st mid">parcial</span>escala de puntaje (propuesta, sin fijar) · <span class="st no">falta</span>plantilla del informe · <span class="st no">falta</span>archivo de marca INFYN.</dd>
+          <dt>Quién</dt><dd>Sofi. Para el eje 04 contable hace falta alguien que lea un mayor: se invita al contador del cliente o se acota el eje.</dd>
+        </dl>
+      </div>
+    </article>
+
+    <!-- ===== PASO 6 ===== -->
+    <article class="paso" id="p6">
+      <div class="rail">
+        <span class="num">06</span>
+        <span class="chip et03">etapa 03 · criterio</span>
+      </div>
+      <div class="body">
+        <h2>Formulario de entrenamiento, uno por cabeza</h2>
+        <p class="frase">No pregunta fórmulas ni tablas. Pregunta cómo mira el negocio la persona que decide.</p>
+        <div class="que">
+          <p><strong>Qué se hace.</strong> A cada tomador de decisiones — dirección, comercial, administración y finanzas, logística y compras — se le manda un formulario de siete bloques, <strong>prearmado por INFYN para ese negocio</strong> antes de enviarlo. Se contesta en lenguaje coloquial, con ejemplos concretos: «miro las ventas» no dice nada; «abro el WhatsApp del encargado de logística para ver cuánto se despachó ayer» dice todo. Y lo que se maneja fuera del sistema se declara igual: es la información más valiosa del formulario, no la más incómoda.</p>
+          <p>Los bloques: identificación · <strong>el primer vistazo del día</strong> (qué mira, en qué orden, a qué hora — casi siempre es el verdadero indicador de gestión, aunque no esté en ningún tablero) · el dolor · decisiones que se tomaron tarde · cómo se entiende el negocio · la operación · <strong>indicadores, umbrales y acciones</strong>, que es el corazón: por cada KPI, la tabla Verde / Amarillo / Rojo con el rango y la acción que dispara.</p>
+          <p>Las respuestas no se comparan entre sí para evaluar a nadie: se cruzan para detectar <strong>dónde la empresa mira distinto el mismo dato</strong>. Sin esa frase el formulario se lee como evaluación de desempeño y se contesta mal.</p>
+        </div>
+        <blockquote class="quote">Si un indicador no tiene una acción asociada, conviene sacarlo del listado. Va a ocupar lugar en un tablero y no va a cambiar ninguna decisión.<cite>Regla escrita en el propio formulario</cite></blockquote>
+        <dl class="meta">
+          <dt>Entrada</dt><dd>El mapa de puestos del cliente.</dd>
+          <dt>Salida</dt><dd>Un formulario respondido por puesto → la lista de KPI con umbral y acción, y las divergencias de criterio entre áreas.</dd>
+          <dt class="gate">Gate</dt><dd class="gate">Ningún KPI entra sin acción asociada. Ninguna cabeza funcional queda sin formulario.</dd>
+          <dt>Hay que tener</dt><dd><span class="st no">falta</span>La plantilla en versión INFYN, para completar sin fricción · <span class="st no">falta</span>una versión prearmada por rubro.</dd>
+          <dt>Quién</dt><dd>Sofi lo prearma; Seba lo entrega y lo persigue.</dd>
+        </dl>
+      </div>
+    </article>
+
+    <!-- ===== PASO 7 ===== -->
+    <article class="paso" id="p7">
+      <div class="rail">
+        <span class="num">07</span>
+        <span class="chip et03">etapa 03 · audit file</span>
+      </div>
+      <div class="body">
+        <h2>Segunda auditoría de cobertura</h2>
+        <p class="frase">La primera pasada midió el esquema. Ésta mide si lo que el cliente pidió se puede calcular con lo que hay.</p>
+        <div class="que">
+          <p><strong>Qué se hace.</strong> Por cada KPI del bloque 7 del formulario: ¿los campos que necesita existen, están poblados (eje 01), cubren el universo (eje 02) y están frescos (eje 03)? Si no, o se formaliza la fuente — vuelve al paso 2 — o el KPI se declara fuera de alcance por escrito. Este paso no estaba en las notas destiladas; está en el video: «van a ver cómo yo entreno esto, y <em>después</em> se hace una segunda auditoría de cobertura».</p>
+          <p>Es también el paso donde un hallazgo deja de ser hallazgo o pasa a serlo. La auditoría mide que el 55,8 % de la venta no tiene cliente; el formulario pregunta si se identifica al cliente en el mostrador y en qué casos. Para una cadena que quiere hablar de recompra es una falla grave; para otra es una decisión tomada a conciencia. <strong>Lo decide el cliente, no el auditor</strong> — y por eso la cobertura se cierra preguntando, no puntuando solo.</p>
+        </div>
+        <dl class="meta">
+          <dt>Entrada</dt><dd>Los KPI del paso 6 + los informes del paso 5.</dd>
+          <dt>Salida</dt><dd>Cada KPI clasificado: calculable · calculable con limitación declarada · no calculable hasta X.</dd>
+          <dt class="gate">Gate</dt><dd class="gate">No se promete un KPI que la base no sostiene.</dd>
+          <dt>Hay que tener</dt><dd><span class="st ok">existe</span>Nada nuevo: es cruzar dos salidas.</dd>
+          <dt>Quién</dt><dd>Sofi.</dd>
+        </dl>
+      </div>
+    </article>
+
+    <!-- ===== PASO 8 ===== -->
+    <article class="paso" id="p8">
+      <div class="rail">
+        <span class="num">08</span>
+        <span class="chip">etapa 04 · cálculo</span>
+      </div>
+      <div class="body">
+        <h2>La capa de cálculo</h2>
+        <p class="frase">Las definiciones del negocio escritas una vez. El agente las lee; no las reconstruye.</p>
+        <div class="que">
+          <p><strong>Qué se hace.</strong> Cada KPI calculable del paso 7 recibe <strong>una</strong> definición, en un solo lugar. En un sistema construido por INFYN esto ya existe en parte: los módulos puros con test son definiciones escritas una vez, y una mutación las pone en rojo — más fuerte que «75 medidas en un modelo semántico». Lo que hay que decidir es cómo las consume el agente: <strong>tools-métrica que envuelven los cores existentes</strong> para lo que ya tiene definición, y SQL acotado solo para lo ad-hoc. Reescribir un core en SQL para que el agente lo lea es abrir dos fuentes que van a divergir.</p>
+          <p>Y hay cosas que la operación diaria no necesita pero el análisis sí, y casi nunca están:</p>
+          <ul class="tight">
+            <li><strong>Un deflactor</strong> cargado — IPC, dólar, o el índice del rubro. Sin él no hay lectura real, y con inflación el nominal miente: «tu venta creció 64 %, tu negocio creció 9 %».</li>
+            <li><strong>Una unidad equivalente de venta</strong> por artículo — un par de medias y una zapatilla premium no se suman como «unidades». Él la tiene como columna en el maestro.</li>
+            <li><strong>Objetivos</strong> por eje, para que «ritmo del negocio vs. objetivo» tenga contra qué.</li>
+            <li>La marca <strong>fijo / variable</strong> cuenta por cuenta, pactada con el cliente: sin eso no hay margen de contribución ni punto de equilibrio.</li>
+            <li>Los <strong>umbrales</strong> del bloque 7 como datos, no como texto en el prompt.</li>
+          </ul>
+        </div>
+        <dl class="meta">
+          <dt>Entrada</dt><dd>Los KPI calculables del paso 7 + los cores que ya existen.</dd>
+          <dt>Salida</dt><dd>Cada KPI con una sola definición, y el agente sabiendo que la lee y no la reconstruye.</dd>
+          <dt class="gate">Gate</dt><dd class="gate">Ningún KPI con dos definiciones vivas — una en el código, otra en el prompt.</dd>
+          <dt>Hay que tener</dt><dd><span class="st mid">parcial</span>Los cores existen por cliente · <span class="st no">falta</span>el patrón de tool-métrica que envuelve un core · <span class="st no">falta</span>tablas estándar de deflactor, unidad equivalente, objetivo y umbral.</dd>
+          <dt>Quién</dt><dd>Sofi.</dd>
+        </dl>
+      </div>
+    </article>
+
+    <!-- ===== PASO 9 ===== -->
+    <article class="paso" id="p9">
+      <div class="rail">
+        <span class="num">09</span>
+        <span class="chip">etapa 05 · copensador</span>
+      </div>
+      <div class="body">
+        <h2>El pack de instrucciones del agente</h2>
+        <p class="frase">Donde vive todo el criterio. Cinco partes, y las limitaciones de la auditoría adentro como prohibición.</p>
+        <div class="que">
+          <p><strong>Qué se hace.</strong> Se escribe el pack en cinco partes: <strong>identidad</strong> con estructura societaria (sin eso el agente no sabe qué es intercompany) · <strong>regla de oro</strong> de fuente de datos · <strong>diccionario por circuito</strong> con semántica de negocio, no una lista de columnas («sin imputación FC↔RC: conciliá por cliente con FIFO») · <strong>reglas numeradas</strong> de análisis · y el <strong>conocimiento que no está en el dato</strong>: estacionalidad, lead times con umbral de anomalía y su consecuencia, prohibiciones de comparación («no compares el margen del outlet contra otros formatos sin aclararlo»).</p>
+          <p>Las limitaciones al alcance del paso 5 entran como restricción dura: el agente no «trata de no alucinar» — tiene prohibidas las preguntas que la base no sostiene, y contesta por qué. Y el diccionario se <strong>genera desde la base</strong>, no se escribe a mano: su propio pack decía 2.800 artículos donde la tabla tenía 39.342 filas, y nada avisó.</p>
+        </div>
+        <blockquote class="quote">Prefiero no darte un número que no puedo defender.<cite>Lo que responde el agente ante un cruce no auditado</cite></blockquote>
+        <dl class="meta">
+          <dt>Entrada</dt><dd>Todo lo anterior.</dd>
+          <dt>Salida</dt><dd>El pack, en un proyecto de Claude o en el system prompt del agente, con el diccionario generado y las limitaciones adentro.</dd>
+          <dt class="gate">Gate</dt><dd class="gate">El pack cita el corte y el universo auditado. Si cambia el esquema, se regenera.</dd>
+          <dt>Hay que tener</dt><dd><span class="st no">falta</span>Plantilla del pack en cinco partes · <span class="st no">falta</span>el generador de diccionario (el mismo del paso 4).</dd>
+          <dt>Quién</dt><dd>Sofi.</dd>
+        </dl>
+      </div>
+    </article>
+
+    <!-- ===== PASO 10 ===== -->
+    <article class="paso" id="p10">
+      <div class="rail">
+        <span class="num">10</span>
+        <span class="chip">etapa 05 · copensador</span>
+      </div>
+      <div class="body">
+        <h2>Validación en tres pestañas</h2>
+        <p class="frase">El análisis, cómo lo calculó, y los comprobantes para comprobarlo. Recién validado, se graba.</p>
+        <div class="que">
+          <p><strong>Qué se hace.</strong> Por cada criterio nuevo, la respuesta se pide en tres pestañas: (1) el análisis, (2) la tabla «Metodología y criterios de cálculo» concepto por concepto — fuente, filtros, exclusiones, cómo cuenta —, (3) el detalle de comprobantes. Se revisa la pestaña 2. Si el criterio es correcto, se le dice al agente que lo <strong>grabe en memoria</strong>, y desde ahí queda fijo: cada vez que le pidan «fidelización de clientes» la mide de esa forma. El humano está arriba del criterio.</p>
+          <p>Y todo número que sale hacia el cliente cumple <strong>la regla del número</strong>: número · comparación · umbral · acción. Ninguna de las cuatro es opcional. Y declara su alcance arriba, en prosa: período, corte, qué se excluyó y por qué, si el mes está incompleto.</p>
+        </div>
+        <dl class="meta">
+          <dt>Entrada</dt><dd>El pack del paso 9 y las preguntas del formulario.</dd>
+          <dt>Salida</dt><dd>Los criterios validados y grabados; los KPI del bloque 7 respondiendo con umbral y acción.</dd>
+          <dt class="gate">Gate</dt><dd class="gate">Ningún criterio va a memoria sin que un humano haya leído la pestaña 2.</dd>
+          <dt>Hay que tener</dt><dd><span class="st no">falta</span>El prompt-plantilla de las tres pestañas · <span class="st no">falta</span>un registro de criterios validados (qué, cuándo, quién) — la memoria del proyecto no es auditable.</dd>
+          <dt>Quién</dt><dd>Sofi valida con el referente del cliente.</dd>
+        </dl>
+      </div>
+    </article>
+
+    <!-- ===== PASO 11 ===== -->
+    <article class="paso" id="p11">
+      <div class="rail">
+        <span class="num">11</span>
+        <span class="chip">etapa 05 · copensador</span>
+      </div>
+      <div class="body">
+        <h2>Entrega y gestión del cambio</h2>
+        <p class="frase">El cliente tiene el producto desde el día uno, en entrenamiento. Y lo que se entrega depende del contrato.</p>
+        <div class="que">
+          <p><strong>Qué se hace.</strong> Dos reglas suyas que son modelo de negocio, no detalle técnico. Primera: el cliente usa el producto mientras se construye, con un cartel visible de <strong>«en entrenamiento — tus preguntas me entrenan»</strong>. No es generosidad: «necesito que la persona se acostumbre a tomar decisiones con esta herramienta; viene de un estado de resultados en Excel y de golpe puede preguntar un punto de equilibrio». El panel se llena por iteración: piden un indicador, después dos, tres, cuatro.</p>
+          <p>Segunda: <strong>con mantenimiento</strong> va el producto (la aplicación); <strong>sin mantenimiento</strong> se instala Claude Teams con un pack de instrucciones por puesto y los artefactos ya creados. La infraestructura queda del lado del cliente: los datos son suyos. Para INFYN esto cierra el leak conocido — el Copensador es lo que la suscripción mensual compra.</p>
+        </div>
+        <dl class="meta">
+          <dt>Entrada</dt><dd>Un agente con criterios validados.</dd>
+          <dt>Salida</dt><dd>El acceso del cliente, los primeros indicadores del bloque 1 en pantalla, y el Acta con el mantenimiento escrito.</dd>
+          <dt class="gate">Gate</dt><dd class="gate">El de <code>/cliente-entrega</code>: referente nombrado por flujo + monto de mantenimiento definido.</dd>
+          <dt>Hay que tener</dt><dd><span class="st mid">decisión</span>Superficie de arranque: para el primer cliente, proyecto de Claude compartido — cero infraestructura. La app propia recién cuando el mantenimiento la pague.</dd>
+          <dt>Quién</dt><dd>Sofi + Seba.</dd>
+        </dl>
+      </div>
+    </article>
+
+    <!-- ===== PASO 12 ===== -->
+    <article class="paso" id="p12">
+      <div class="rail">
+        <span class="num">12</span>
+        <span class="chip">etapa 05 · continuo</span>
+      </div>
+      <div class="body">
+        <h2>Cadencia — la auditoría se repite</h2>
+        <p class="frase">El score de hoy es el baseline. Lo que se mide después es qué limitaciones se levantaron.</p>
+        <div class="que">
+          <p><strong>Qué se hace.</strong> El audit file no es un hito: se corre en cada hito — fuente nueva, migración, mes cerrado. El informe mensual del mantenimiento es la evolución del score y la lista de limitaciones que dejaron de existir. Por eso los skills del paso 5 se empaquetan como skills y no como sesiones: tienen que re-correrse sin retrabajo.</p>
+        </div>
+        <blockquote class="quote">Un informe no tiene que ser una autopsia. No me sirve de nada ver a fin de mes que se me cayó la venta y explicar por qué.<cite>Sánchez De Boeck · webinar 2026-09-01</cite></blockquote>
+        <dl class="meta">
+          <dt>Salida</dt><dd>Score y limitaciones con fecha, comparables mes a mes.</dd>
+          <dt>Hay que tener</dt><dd><span class="st no">falta</span>Los mismos skills del paso 5, re-corribles.</dd>
+          <dt>Quién</dt><dd>Sofi.</dd>
+        </dl>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ===== INVENTARIO ===== -->
+<section class="section" id="inventario">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Qué hay que tener o agregar</p>
+      <h2>Dieciséis piezas. Dos existen, cinco a medias, nueve faltan.</h2>
+      <p class="lede" style="margin-top:14px;font-size:16px">Se construyen una vez y se reusan por cliente. Ninguna se construye en abstracto: cada una nace cuando el ejemplo 0 la pide, con un caso real detrás, y recién ahí se generaliza.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Pieza</th><th>Estado</th><th>Paso</th><th>Qué falta</th></tr></thead>
+        <tbody>
+          <tr><td class="n">1</td><td>Pregunta de la decisión tardía como gate</td><td><span class="st mid">parcial</span></td><td class="p">0</td><td>Sumarla como obligatoria al guion de descubrimiento.</td></tr>
+          <tr><td class="n">2</td><td>Inventario de fuentes con corte y formal/informal</td><td><span class="st mid">parcial</span></td><td class="p">1</td><td>Dos columnas más en el relevamiento.</td></tr>
+          <tr><td class="n">3</td><td>Checklist de los cuatro maestros heredados</td><td><span class="st no">falta</span></td><td class="p">3</td><td>Plan de cuentas · catálogo · sucursales/centros · tipos de cliente.</td></tr>
+          <tr><td class="n">4</td><td>Script del schema <code>analytics</code> + rol de solo lectura + timeouts</td><td><span class="st no">falta</span></td><td class="p">4</td><td>SQL escrito en la spec, nunca ejecutado.</td></tr>
+          <tr><td class="n">5</td><td>Generador de diccionario desde la base</td><td><span class="st no">falta</span></td><td class="p">4 · 9</td><td>Tablas, columnas, filas, comentarios. Para Prisma sale del schema.</td></tr>
+          <tr><td class="n">6</td><td>Skills de auditoría, uno por eje</td><td><span class="st no">falta</span></td><td class="p">5 · 12</td><td>Las SQL genéricas están; falta empaquetarlas.</td></tr>
+          <tr><td class="n">7</td><td>Escala de puntaje escrita</td><td><span class="st mid">parcial</span></td><td class="p">5</td><td>Propuesta; fijarla antes de la primera corrida y no cambiarla entre clientes.</td></tr>
+          <tr><td class="n">8</td><td>Plantilla del informe por eje + lámina resumen</td><td><span class="st no">falta</span></td><td class="p">5</td><td>Nueve secciones; la forma está descripta, no hay archivo.</td></tr>
+          <tr><td class="n">9</td><td>Archivo de marca INFYN para el agente</td><td><span class="st no">falta</span></td><td class="p">5 · 9</td><td>Para que los informes salgan con marca sin pedirlo.</td></tr>
+          <tr><td class="n">10</td><td>Plantilla de limitaciones al alcance</td><td><span class="st no">falta</span></td><td class="p">5 · 9</td><td>Formato: procedimiento · evidencia · hasta que.</td></tr>
+          <tr><td class="n">11</td><td>Formulario de entrenamiento versión INFYN</td><td><span class="st no">falta</span></td><td class="p">6</td><td>Siete bloques + instructivo; una versión prearmada por rubro.</td></tr>
+          <tr><td class="n">12</td><td>Tablas estándar: deflactor · unidad equivalente · objetivo · umbral</td><td><span class="st no">falta</span></td><td class="p">8</td><td>Plantilla de arranque para cualquier cliente.</td></tr>
+          <tr><td class="n">13</td><td>Patrón de tool-métrica que envuelve un core existente</td><td><span class="st no">falta</span></td><td class="p">8 · 9</td><td>Evita reescribir el criterio en SQL.</td></tr>
+          <tr><td class="n">14</td><td>Plantilla del pack de instrucciones en cinco partes</td><td><span class="st no">falta</span></td><td class="p">9</td><td>Con la sección de limitaciones al alcance.</td></tr>
+          <tr><td class="n">15</td><td>Prompt de tres pestañas + registro de criterios validados</td><td><span class="st no">falta</span></td><td class="p">10</td><td>El registro tiene que ser auditable, no la memoria del proyecto.</td></tr>
+          <tr><td class="n">16</td><td>Spec técnica del agente</td><td><span class="st mid">parcial</span></td><td class="p">4 · 9</td><td>Existe; el runtime está desactualizado (dice Python, la decisión fue TS).</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="legend">
+      <span><span class="st ok">existe</span>listo para usar</span>
+      <span><span class="st mid">parcial</span>existe a medias o hay que decidir</span>
+      <span><span class="st no">falta</span>hay que construirlo</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EJEMPLO 0 ===== -->
+<section class="section" id="ejemplo0">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Ejemplo 0 · Bestani Neumáticos</p>
+      <h2>La primera corrida entera, en cuatro semanas.</h2>
+      <p class="lede" style="margin-top:14px;font-size:16px">Bestani es el único cliente donde el método se puede correr completo: ledger de partida doble propio, un año de sistema y seis semanas de operación real, cuatro sucursales, ~7.100 clientes activos, 1.358 artículos — y la capa de cálculo ya escrita en código con tests. El gate del paso 0 ya está cumplido con cuatro decisiones tardías medidas en el propio repo.</p>
+    </div>
+    <div class="semanas">
+      <div class="w">Semana 1</div>
+      <div class="d"><b>Pasos 1 · 3 · 4 (solo diccionario)</b><small>Inventario de fuentes con corte · checklist de maestros · diccionario generado · copia fresca de producción. Y volver a pedir a Maxi los cuatro códigos rotos y los saldos reales de caja.</small></div>
+      <div class="w">Semana 2</div>
+      <div class="d"><b>Paso 5 — el Audit File de Bestani</b><small>Eje 04 físico y contable, 03, 01, 02 primera pasada. Cuatro informes + lámina + score + limitaciones. Es el baseline y lo primero que ve Maxi.</small></div>
+      <div class="w">Semanas 2–3</div>
+      <div class="d"><b>Paso 6 — cinco formularios</b><small>Maxi (gerencia) · tesorero · una encargada de sucursal · un vendedor de calle · el contador, para validar el eje 04.</small></div>
+      <div class="w">Semana 3</div>
+      <div class="d"><b>Pasos 7 · 8</b><small>KPI clasificados; unidad equivalente, deflactor, objetivos, umbrales y fijo/variable cargados; keystone confirmado (sucursal × mes).</small></div>
+      <div class="w">Semana 4</div>
+      <div class="d"><b>Pasos 9 · 10 · 11</b><small>Pack de instrucciones; los tres primeros criterios validados en tres pestañas (los del primer vistazo del día de Maxi); proyecto de Claude compartido, en entrenamiento.</small></div>
+      <div class="w">Mensual</div>
+      <div class="d"><b>Paso 12</b><small>Score y limitaciones con fecha; qué se levantó.</small></div>
+    </div>
+    <div class="callout">
+      <b>El conflicto de interés se declara.</b> INFYN diseñó la base que INFYN va a auditar. Se dice en el informe y se usa a favor: el eje 01 acá mide qué campos diseñamos y nadie llena — feedback de producto —, y el eje 04 destapa deuda propia. Si el método encuentra cosas en una base que INFYN construyó, es la prueba de que no es teatro.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Fuentes: Antonio Sánchez De Boeck — webinar «Traé tu peor pregunta de negocio» (2026-09-01, 1h34m), lámina «Cinco etapas» y deck del 4to Congreso Iberoamericano de Tecnología 5.0 en Auditoría Interna. Adaptación INFYN: notas <em>Metodología Copensador — implementación de punta a punta</em>, <em>Auditoría de la evidencia — método propio</em> y <em>Ejemplo 0 — Copensador sobre Bestani</em> en el vault.</p>
+    <p>Versión 0 · 2026-09-04 · Nada ejecutado todavía. Este documento cambia con cada paso que el ejemplo 0 recorra.</p>
+  </div>
+</footer>
