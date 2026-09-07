@@ -7,7 +7,7 @@
 <meta name="description" content="Consultoría e implementación para PyMEs. Diagnóstico en 48–72 hs, sistema a medida en 2–6 semanas.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
 
   /* ═══════════════════════════════════════════════════
@@ -53,6 +53,29 @@
 
   ::selection { background: var(--verde); color: var(--crema); }
 
+  /* ─── Acento tipográfico: serif itálica para la palabra clave ───
+     Una sola por bloque de texto. Va 6% más grande porque la altura x
+     de Instrument Serif es menor que la de Inter. */
+  .serif {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.06em;
+    letter-spacing: -0.005em;
+  }
+
+  .acento-verde  { color: var(--verde-hoja); }
+  .acento-salvia { color: var(--salvia); }
+
+  /* ─── Negrita de cuerpo ───
+     600, nunca 700: resalta sin romper el peso del sistema.
+     El color sale de --fuerte, que cada bloque define según su fondo:
+     así una negrita nueva nunca queda ilegible. */
+  strong { font-weight: 600; color: var(--fuerte, var(--tinta)); }
+  .hero, .metodo, .quote, footer,
+  .c-verde, .c-hoja, .app-side { --fuerte: var(--crema); }
+  .c-salvia { --fuerte: var(--verde); }
+
   /* ─── Textura de papel sobre bloques verdes ─── */
   .grain { position: relative; }
   .grain::before {
@@ -65,6 +88,37 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
   }
   .grain > * { position: relative; z-index: 1; }
+
+  /* ─── Gráficos de marca ───
+     SVG plano, sin relleno ni blur: geometría medida, como un instrumento. */
+  .graf-onda {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    width: 100%;
+    height: 120px;
+    pointer-events: none;
+    opacity: 0.9;
+  }
+  .graf-barras {
+    width: 100%;
+    max-width: 420px;
+    height: 76px;
+    margin-top: 26px;
+    display: block;
+  }
+  .graf-linea {
+    width: 100%;
+    max-width: 300px;
+    height: 40px;
+    margin-top: 24px;
+    display: block;
+  }
+  .graf-capas {
+    width: 100%;
+    max-width: 190px;
+    justify-self: end;
+    align-self: end;
+  }
 
   /* ─── Contenedor ─── */
   .wrap { max-width: 1160px; margin: 0 auto; }
@@ -99,6 +153,7 @@
     max-width: 18ch;
   }
   .titulo-seccion.sobre-verde { color: var(--crema); }
+  .titulo-seccion.titulo-ancho { max-width: 26ch; }
 
   .bajada {
     font-size: 17px;
@@ -204,20 +259,12 @@
   /* Arco de marca — recurso gráfico plano, sin glow */
   .hero-arco {
     position: absolute;
-    top: -80px;
-    right: -120px;
+    top: -70px;
+    right: -130px;
     width: 620px;
     height: 620px;
-    border-radius: 50%;
-    border: 1px solid rgba(125,166,139,0.22);
     z-index: 0;
-  }
-  .hero-arco::after {
-    content: '';
-    position: absolute;
-    inset: 110px;
-    border-radius: 50%;
-    border: 1px solid rgba(125,166,139,0.14);
+    pointer-events: none;
   }
   .hero-inner { position: relative; z-index: 1; max-width: 1160px; margin: 0 auto; }
 
@@ -249,10 +296,7 @@
     max-width: 17ch;
     margin-bottom: 32px;
   }
-  .hero-headline em {
-    font-style: normal;
-    color: var(--salvia);
-  }
+  .hero-headline em { color: var(--salvia); }
 
   .hero-sub {
     font-size: 18px;
@@ -340,8 +384,8 @@
   .metodo { background: var(--verde); padding: 120px 40px; }
   .metodo-header {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 60px;
+    grid-template-columns: 1.15fr 0.9fr 200px;
+    gap: 56px;
     align-items: end;
     margin-bottom: 76px;
   }
@@ -685,6 +729,8 @@
     gap: 12px;
   }
   .celda {
+    position: relative;
+    overflow: hidden;
     padding: 46px 40px;
     min-height: 320px;
     display: flex;
@@ -699,6 +745,15 @@
   .c-hoja   { background: var(--verde-hoja); color: var(--crema); }
   .esq-tr { border-top-right-radius: 150px; }
   .esq-bl { border-bottom-left-radius: 150px; }
+
+  .celda > div { position: relative; z-index: 1; }
+  .celda > .graf-onda { z-index: 0; }
+  .graf-spark {
+    width: 100%;
+    height: 62px;
+    display: block;
+    margin-bottom: 20px;
+  }
 
   .celda-num {
     font-size: clamp(46px, 5.6vw, 76px);
@@ -751,9 +806,8 @@
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     width: 560px; height: 560px;
-    border-radius: 50%;
-    border: 1px solid rgba(125,166,139,0.16);
     z-index: 0;
+    pointer-events: none;
   }
   .quote-texto {
     position: relative;
@@ -779,7 +833,7 @@
     font-weight: 500;
     line-height: 1.18;
     letter-spacing: -0.03em;
-    max-width: 24ch;
+    max-width: 28ch;
     margin: 0 auto 20px;
   }
   .cta-titulo span { color: var(--tinta-suave); }
@@ -813,7 +867,8 @@
   @media (max-width: 1024px) {
     .mockup-layout { grid-template-columns: 1fr; }
     .telefono { max-width: 268px; margin: 0 auto; }
-    .metodo-header { grid-template-columns: 1fr; gap: 26px; align-items: start; }
+    .metodo-header { grid-template-columns: 1fr 200px; gap: 34px; align-items: start; }
+    .graf-capas { grid-row: span 2; align-self: center; }
     .paso { grid-template-columns: 60px 1fr; gap: 24px; }
     .paso-texto { grid-column: 2; margin-top: 14px; }
     .bento { grid-template-columns: repeat(2, 1fr); }
@@ -830,6 +885,8 @@
     .quote { padding: 110px 24px; }
     .cta { padding: 96px 24px; }
     footer { padding: 40px 24px; }
+    .metodo-header { grid-template-columns: 1fr; }
+    .graf-capas { display: none; }
     .columnas { grid-template-columns: 1fr; }
     .columna {
       border-right: 0;
@@ -883,19 +940,19 @@
 
 <!-- ═══ HERO ═══ -->
 <section class="hero grain">
-  <div class="hero-arco"></div>
+  <svg class="hero-arco" viewBox="0 0 620 620" fill="none" aria-hidden="true"><circle cx="310" cy="310" r="300" fill="none" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><circle cx="310" cy="310" r="196" fill="none" stroke="rgba(125,166,139,0.12)" stroke-width="1"/><path d="M 93.5 435.0 A 250 250 0 0 0 544.9 395.5" fill="none" stroke="rgba(125,166,139,0.08)" stroke-width="30"/><line x1="273.5" y1="516.8" x2="267.3" y2="552.3" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="266.3" y1="515.4" x2="262.2" y2="535.0" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="259.2" y1="513.8" x2="254.4" y2="533.2" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="252.1" y1="511.9" x2="246.6" y2="531.1" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="245.1" y1="509.7" x2="238.9" y2="528.7" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="238.2" y1="507.3" x2="225.9" y2="541.2" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="231.3" y1="504.7" x2="223.8" y2="523.3" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="224.6" y1="501.8" x2="216.5" y2="520.1" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="217.9" y1="498.7" x2="209.2" y2="516.7" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="211.4" y1="495.4" x2="202.0" y2="513.1" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="205.0" y1="491.9" x2="187.0" y2="523.0" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="198.7" y1="488.1" x2="188.1" y2="505.1" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="192.6" y1="484.1" x2="181.4" y2="500.7" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="186.6" y1="479.9" x2="174.8" y2="496.1" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="180.7" y1="475.5" x2="168.4" y2="491.2" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="175.0" y1="470.9" x2="151.9" y2="498.4" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="169.5" y1="466.1" x2="156.1" y2="480.9" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="164.1" y1="461.1" x2="150.2" y2="475.4" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="158.9" y1="455.9" x2="144.6" y2="469.8" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="153.9" y1="450.5" x2="139.1" y2="463.9" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="149.1" y1="445.0" x2="121.6" y2="468.1" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="144.5" y1="439.3" x2="128.8" y2="451.6" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="140.1" y1="433.4" x2="123.9" y2="445.2" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="135.9" y1="427.4" x2="119.3" y2="438.6" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="131.9" y1="421.3" x2="114.9" y2="431.9" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="128.1" y1="415.0" x2="97.0" y2="433.0" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="124.6" y1="408.6" x2="106.9" y2="418.0" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="121.3" y1="402.1" x2="103.3" y2="410.8" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="118.2" y1="395.4" x2="99.9" y2="403.5" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="115.3" y1="388.7" x2="96.7" y2="396.2" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="112.7" y1="381.8" x2="78.8" y2="394.1" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="110.3" y1="374.9" x2="91.3" y2="381.1" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="108.1" y1="367.9" x2="88.9" y2="373.4" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="106.2" y1="360.8" x2="86.8" y2="365.6" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="104.6" y1="353.7" x2="85.0" y2="357.8" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="103.2" y1="346.5" x2="67.7" y2="352.7" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="102.0" y1="339.2" x2="82.2" y2="342.0" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="101.2" y1="332.0" x2="81.3" y2="334.0" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="100.5" y1="324.6" x2="80.6" y2="326.0" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="100.1" y1="317.3" x2="80.1" y2="318.0" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="100.0" y1="310.0" x2="64.0" y2="310.0" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="100.1" y1="302.7" x2="80.1" y2="302.0" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="100.5" y1="295.4" x2="80.6" y2="294.0" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="101.2" y1="288.0" x2="81.3" y2="286.0" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="102.0" y1="280.8" x2="82.2" y2="278.0" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="103.2" y1="273.5" x2="67.7" y2="267.3" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="104.6" y1="266.3" x2="85.0" y2="262.2" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="106.2" y1="259.2" x2="86.8" y2="254.4" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="108.1" y1="252.1" x2="88.9" y2="246.6" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="110.3" y1="245.1" x2="91.3" y2="238.9" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="112.7" y1="238.2" x2="78.8" y2="225.9" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="115.3" y1="231.3" x2="96.7" y2="223.8" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="118.2" y1="224.6" x2="99.9" y2="216.5" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="121.3" y1="217.9" x2="103.3" y2="209.2" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="124.6" y1="211.4" x2="106.9" y2="202.0" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="128.1" y1="205.0" x2="97.0" y2="187.0" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="131.9" y1="198.7" x2="114.9" y2="188.1" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="135.9" y1="192.6" x2="119.3" y2="181.4" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="140.1" y1="186.6" x2="123.9" y2="174.8" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="144.5" y1="180.7" x2="128.8" y2="168.4" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="149.1" y1="175.0" x2="121.6" y2="151.9" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="153.9" y1="169.5" x2="139.1" y2="156.1" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="158.9" y1="164.1" x2="144.6" y2="150.2" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="164.1" y1="158.9" x2="150.2" y2="144.6" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="169.5" y1="153.9" x2="156.1" y2="139.1" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="175.0" y1="149.1" x2="151.9" y2="121.6" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="180.7" y1="144.5" x2="168.4" y2="128.8" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="186.6" y1="140.1" x2="174.8" y2="123.9" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="192.6" y1="135.9" x2="181.4" y2="119.3" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="198.7" y1="131.9" x2="188.1" y2="114.9" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="205.0" y1="128.1" x2="187.0" y2="97.0" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="211.4" y1="124.6" x2="202.0" y2="106.9" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="217.9" y1="121.3" x2="209.2" y2="103.3" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="224.6" y1="118.2" x2="216.5" y2="99.9" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="231.3" y1="115.3" x2="223.8" y2="96.7" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="238.2" y1="112.7" x2="225.9" y2="78.8" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="245.1" y1="110.3" x2="238.9" y2="91.3" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="252.1" y1="108.1" x2="246.6" y2="88.9" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="259.2" y1="106.2" x2="254.4" y2="86.8" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="266.3" y1="104.6" x2="262.2" y2="85.0" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="273.5" y1="103.2" x2="267.3" y2="67.7" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="280.8" y1="102.0" x2="278.0" y2="82.2" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="288.0" y1="101.2" x2="286.0" y2="81.3" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="295.4" y1="100.5" x2="294.0" y2="80.6" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="302.7" y1="100.1" x2="302.0" y2="80.1" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="310.0" y1="100.0" x2="310.0" y2="64.0" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="317.3" y1="100.1" x2="318.0" y2="80.1" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="324.6" y1="100.5" x2="326.0" y2="80.6" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="332.0" y1="101.2" x2="334.0" y2="81.3" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="339.2" y1="102.0" x2="342.0" y2="82.2" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="346.5" y1="103.2" x2="352.7" y2="67.7" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="353.7" y1="104.6" x2="357.8" y2="85.0" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="360.8" y1="106.2" x2="365.6" y2="86.8" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="367.9" y1="108.1" x2="373.4" y2="88.9" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="374.9" y1="110.3" x2="381.1" y2="91.3" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="381.8" y1="112.7" x2="394.1" y2="78.8" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="388.7" y1="115.3" x2="396.2" y2="96.7" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="395.4" y1="118.2" x2="403.5" y2="99.9" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="402.1" y1="121.3" x2="410.8" y2="103.3" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="408.6" y1="124.6" x2="418.0" y2="106.9" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="415.0" y1="128.1" x2="433.0" y2="97.0" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="421.3" y1="131.9" x2="431.9" y2="114.9" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="427.4" y1="135.9" x2="438.6" y2="119.3" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="433.4" y1="140.1" x2="445.2" y2="123.9" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="439.3" y1="144.5" x2="451.6" y2="128.8" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="445.0" y1="149.1" x2="468.1" y2="121.6" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="450.5" y1="153.9" x2="463.9" y2="139.1" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="455.9" y1="158.9" x2="469.8" y2="144.6" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="461.1" y1="164.1" x2="475.4" y2="150.2" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="466.1" y1="169.5" x2="480.9" y2="156.1" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="470.9" y1="175.0" x2="498.4" y2="151.9" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="475.5" y1="180.7" x2="491.2" y2="168.4" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="479.9" y1="186.6" x2="496.1" y2="174.8" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="484.1" y1="192.6" x2="500.7" y2="181.4" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="488.1" y1="198.7" x2="505.1" y2="188.1" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="491.9" y1="205.0" x2="523.0" y2="187.0" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="495.4" y1="211.4" x2="513.1" y2="202.0" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="498.7" y1="217.9" x2="516.7" y2="209.2" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="501.8" y1="224.6" x2="520.1" y2="216.5" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="504.7" y1="231.3" x2="523.3" y2="223.8" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="507.3" y1="238.2" x2="541.2" y2="225.9" stroke="rgba(125,166,139,0.3)" stroke-width="1"/><line x1="509.7" y1="245.1" x2="528.7" y2="238.9" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="511.9" y1="252.1" x2="531.1" y2="246.6" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="513.8" y1="259.2" x2="533.2" y2="254.4" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="515.4" y1="266.3" x2="535.0" y2="262.2" stroke="rgba(125,166,139,0.18)" stroke-width="1"/><line x1="516.8" y1="273.5" x2="552.3" y2="267.3" stroke="rgba(125,166,139,0.3)" stroke-width="1"/></svg>
   <div class="hero-inner">
     <div class="hero-tag">Consultoría e implementación para PyMEs</div>
 
     <h1 class="hero-headline">
       Tu negocio merece<br>
       un sistema a medida<br>
-      <em>sin que estés pendiente.</em>
+      <em class="serif">sin que estés pendiente.</em>
     </h1>
 
     <p class="hero-sub">
       Convertimos el caos en sistema: procesos, estructura y decisiones con datos.
-      Lo diseñamos y lo implementamos con vos.
+      Lo diseñamos y <strong>lo implementamos con vos</strong>.
     </p>
 
     <div class="hero-actions">
@@ -927,25 +984,27 @@
     <div class="eyebrow">El problema</div>
 
     <p class="problema-statement">
-      Tu negocio crece. Pero el caos también.
-      <span>El problema no es la venta. Es la falta de sistema.</span>
+      Tu negocio crece.<br>
+      Pero el caos también.<br>
+      <span>El problema no es la venta.</span><br>
+      <em class="serif acento-verde">Es la falta de sistema.</em>
     </p>
 
     <div class="columnas">
       <div class="columna">
         <svg class="columna-icono" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <div class="columna-titulo">Dependencia total del dueño</div>
-        <div class="columna-texto">Si no estás, nada avanza. Las decisiones, los problemas y los detalles operativos pasan todos por vos.</div>
+        <div class="columna-texto">Si no estás, <strong>nada avanza</strong>. Las decisiones, los problemas y los detalles operativos pasan todos por vos.</div>
       </div>
       <div class="columna">
         <svg class="columna-icono" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M3 10h18"/><path d="M9 4v16"/></svg>
         <div class="columna-titulo">Sin información centralizada</div>
-        <div class="columna-texto">Los datos están en Excel, mails y planillas sueltas. Cuando necesitás un número, primero tenés que encontrarlo.</div>
+        <div class="columna-texto">Los datos están en Excel, mails y planillas sueltas. Cuando necesitás un número, primero tenés que <strong>encontrarlo</strong>.</div>
       </div>
       <div class="columna">
         <svg class="columna-icono" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
         <div class="columna-titulo">Decisiones sin respaldo</div>
-        <div class="columna-texto">Subir precios, contratar, expandirse. Sin datos claros, cada decisión grande se toma a intuición.</div>
+        <div class="columna-texto">Subir precios, contratar, expandirse. Sin datos claros, cada decisión grande se toma <strong>a intuición</strong>.</div>
       </div>
     </div>
   </div>
@@ -958,12 +1017,13 @@
     <div class="metodo-header">
       <div>
         <div class="eyebrow sobre-verde">Nuestro modelo</div>
-        <h2 class="titulo-seccion sobre-verde">Tres capas. Sin huecos entre ellas.</h2>
+        <h2 class="titulo-seccion sobre-verde">Tres capas.<br><em class="serif acento-salvia">Sin huecos entre ellas.</em></h2>
       </div>
       <p class="bajada sobre-verde">
-        No entregamos un informe y nos vamos. Diagnosticamos, construimos y nos quedamos
-        operando hasta que el sistema camina solo.
+No entregamos un informe y nos vamos. Diagnosticamos, construimos y nos quedamos
+        operando <strong>hasta que el sistema camina solo</strong>.
       </p>
+      <svg class="graf-capas" viewBox="-16 -16 272 272" fill="none" aria-hidden="true"><circle cx="120" cy="120" r="46" fill="none" stroke="rgba(125,166,139,0.11)" stroke-width="1"/><path d="M 120.0 74.0 A 46 46 0 0 1 149.6 155.2" fill="none" stroke="rgba(125,166,139,0.85)" stroke-width="2.5" stroke-linecap="round"/><circle cx="149.6" cy="155.2" r="3" fill="rgba(125,166,139,1.0)"/><text x="159.9" y="171.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" letter-spacing="0.1em" fill="rgba(125,166,139,0.80)">01</text><circle cx="120" cy="120" r="74" fill="none" stroke="rgba(125,166,139,0.11)" stroke-width="1"/><path d="M 120.0 46.0 A 74 74 0 1 1 59.4 162.4" fill="none" stroke="rgba(125,166,139,0.55)" stroke-width="2.5" stroke-linecap="round"/><circle cx="59.4" cy="162.4" r="3" fill="rgba(125,166,139,0.7000000000000001)"/><text x="46.3" y="175.1" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" letter-spacing="0.1em" fill="rgba(125,166,139,0.80)">02</text><circle cx="120" cy="120" r="102" fill="none" stroke="rgba(125,166,139,0.11)" stroke-width="1"/><path d="M 120.0 18.0 A 102 102 0 1 1 69.0 31.7" fill="none" stroke="rgba(125,166,139,0.32)" stroke-width="2.5" stroke-linecap="round"/><circle cx="69.0" cy="31.7" r="3" fill="rgba(125,166,139,0.47)"/><text x="61.0" y="21.3" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" letter-spacing="0.1em" fill="rgba(125,166,139,0.80)">03</text><line x1="120.0" y1="0.0" x2="120.0" y2="-11.0" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="138.8" y1="1.5" x2="139.7" y2="-4.4" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="157.1" y1="5.9" x2="158.9" y2="0.2" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="174.5" y1="13.1" x2="179.5" y2="3.3" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="190.5" y1="22.9" x2="194.1" y2="18.1" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="204.9" y1="35.1" x2="209.1" y2="30.9" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="217.1" y1="49.5" x2="226.0" y2="43.0" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="226.9" y1="65.5" x2="232.3" y2="62.8" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="234.1" y1="82.9" x2="239.8" y2="81.1" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="238.5" y1="101.2" x2="249.4" y2="99.5" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="240.0" y1="120.0" x2="246.0" y2="120.0" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="238.5" y1="138.8" x2="244.4" y2="139.7" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="234.1" y1="157.1" x2="244.6" y2="160.5" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="226.9" y1="174.5" x2="232.3" y2="177.2" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="217.1" y1="190.5" x2="221.9" y2="194.1" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="204.9" y1="204.9" x2="212.6" y2="212.6" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="190.5" y1="217.1" x2="194.1" y2="221.9" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="174.5" y1="226.9" x2="177.2" y2="232.3" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="157.1" y1="234.1" x2="160.5" y2="244.6" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="138.8" y1="238.5" x2="139.7" y2="244.4" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="120.0" y1="240.0" x2="120.0" y2="246.0" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="101.2" y1="238.5" x2="99.5" y2="249.4" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="82.9" y1="234.1" x2="81.1" y2="239.8" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="65.5" y1="226.9" x2="62.8" y2="232.3" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="49.5" y1="217.1" x2="43.0" y2="226.0" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="35.1" y1="204.9" x2="30.9" y2="209.1" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="22.9" y1="190.5" x2="18.1" y2="194.1" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="13.1" y1="174.5" x2="3.3" y2="179.5" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="5.9" y1="157.1" x2="0.2" y2="158.9" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="1.5" y1="138.8" x2="-4.4" y2="139.7" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="0.0" y1="120.0" x2="-11.0" y2="120.0" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="1.5" y1="101.2" x2="-4.4" y2="100.3" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="5.9" y1="82.9" x2="0.2" y2="81.1" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="13.1" y1="65.5" x2="3.3" y2="60.5" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="22.9" y1="49.5" x2="18.1" y2="45.9" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="35.1" y1="35.1" x2="30.9" y2="30.9" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="49.5" y1="22.9" x2="43.0" y2="14.0" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="65.5" y1="13.1" x2="62.8" y2="7.7" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="82.9" y1="5.9" x2="81.1" y2="0.2" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="101.2" y1="1.5" x2="99.5" y2="-9.4" stroke="rgba(125,166,139,0.20)" stroke-width="1"/><line x1="120.0" y1="0.0" x2="120.0" y2="-6.0" stroke="rgba(125,166,139,0.20)" stroke-width="1"/></svg>
     </div>
 
     <div class="paso">
@@ -974,7 +1034,7 @@
       </div>
       <div class="paso-texto">
         Entramos a tu operación y la entendemos desde adentro. Flujos, herramientas, datos y
-        cuellos de botella. El resultado: un plan claro con alcance y presupuesto.
+        cuellos de botella. El resultado: un plan claro con <strong>alcance y presupuesto</strong>.
       </div>
     </div>
 
@@ -986,7 +1046,7 @@
       </div>
       <div class="paso-texto">
         Diseñamos y construimos el sistema operativo de tu negocio. Procesos, automatizaciones
-        e integraciones reales, sobre la forma en que tu equipo ya trabaja.
+        e integraciones reales, sobre la forma en que <strong>tu equipo ya trabaja</strong>.
       </div>
     </div>
 
@@ -997,8 +1057,8 @@
         <div class="paso-tiempo">Seguimiento mensual</div>
       </div>
       <div class="paso-texto">
-        Mantenemos, mejoramos y sumamos inteligencia donde tiene impacto. Tu sistema evoluciona
-        con tu negocio, no al revés.
+        Mantenemos, mejoramos y sumamos inteligencia donde tiene impacto. <strong>Tu sistema evoluciona
+        con tu negocio</strong>, no al revés.
       </div>
     </div>
   </div>
@@ -1010,10 +1070,10 @@
   <div class="wrap">
     <div class="producto-header">
       <div class="eyebrow">El diferencial</div>
-      <h2 class="titulo-seccion">Ciro. Tu co-pensador estratégico, 24/7.</h2>
+      <h2 class="titulo-seccion titulo-ancho">Ciro.<br><em class="serif acento-verde">Tu co-pensador estratégico 24/7.</em></h2>
       <p class="bajada">
         Ciro conoce tu operación en tiempo real. Le preguntás, analiza tus datos y te responde
-        como lo haría un socio estratégico — con contexto, sin rodeos.
+        como lo haría <strong>un socio estratégico</strong> — con contexto, sin rodeos.
       </p>
       <div class="capacidades">
         <span class="capacidad">Análisis con tus propios datos</span>
@@ -1197,16 +1257,17 @@
   <div class="wrap">
     <div class="resultados-header">
       <div class="eyebrow">Resultados</div>
-      <h2 class="titulo-seccion">Números reales. Casos reales.</h2>
+      <h2 class="titulo-seccion">Números reales.<br><em class="serif acento-verde">Casos reales.</em></h2>
     </div>
 
     <div class="bento">
       <div class="celda c-verde esq-tr">
         <div class="celda-label">Recupero de cartera</div>
         <div>
+          <svg class="graf-spark" viewBox="0 0 300 62" preserveAspectRatio="none" aria-hidden="true"><path d="M 0.0 58 L 0.0 43.8 L 27.3 41.2 L 54.5 42.5 L 81.8 38.0 L 109.1 39.3 L 136.4 33.5 L 163.6 30.9 L 190.9 32.2 L 218.2 25.8 L 245.5 20.6 L 272.7 16.8 L 300.0 7.7 L 300.0 58 Z" fill="rgba(125,166,139,0.18)"/><polyline points="0.0,43.8 27.3,41.2 54.5,42.5 81.8,38.0 109.1,39.3 136.4,33.5 163.6,30.9 190.9,32.2 218.2,25.8 245.5,20.6 272.7,16.8 300.0,7.7" fill="none" stroke="#7DA68B" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/><circle cx="300.0" cy="7.7" r="3.2" fill="#7DA68B"/></svg>
           <div class="celda-num">+30%</div>
           <div class="celda-texto">
-            Un agente de cobranzas automatizado redujo la mora y recuperó el flujo en menos de dos meses.
+            Un agente de cobranzas automatizado redujo la mora y recuperó el flujo en <strong>menos de dos meses</strong>.
           </div>
         </div>
       </div>
@@ -1216,9 +1277,10 @@
         <div>
           <div class="celda-num">−70%</div>
           <div class="celda-texto">
-            Facturación y conciliación 100% automatizadas. El equipo dejó de hacer trabajo que no
-            agrega valor y volvió a ocuparse de vender y atender.
+            Facturación y conciliación 100% automatizadas. El equipo dejó de hacer <strong>trabajo que no
+            agrega valor</strong> y volvió a ocuparse de vender y atender.
           </div>
+          <svg class="graf-barras" viewBox="0 0 264 100" preserveAspectRatio="xMinYMax meet" aria-hidden="true"><rect x="0" y="0" width="12" height="100" rx="1" fill="rgba(44,92,72,0.34)"/><rect x="22" y="6" width="12" height="94" rx="1" fill="rgba(44,92,72,0.34)"/><rect x="44" y="12" width="12" height="88" rx="1" fill="rgba(44,92,72,0.34)"/><rect x="66" y="26" width="12" height="74" rx="1" fill="rgba(44,92,72,0.34)"/><rect x="88" y="34" width="12" height="66" rx="1" fill="rgba(44,92,72,0.34)"/><rect x="110" y="48" width="12" height="52" rx="1" fill="rgba(44,92,72,0.34)"/><rect x="132" y="55" width="12" height="45" rx="1" fill="rgba(44,92,72,0.34)"/><rect x="154" y="62" width="12" height="38" rx="1" fill="rgba(44,92,72,0.34)"/><rect x="176" y="67" width="12" height="33" rx="1" fill="rgba(44,92,72,0.34)"/><rect x="198" y="71" width="12" height="29" rx="1" fill="rgba(44,92,72,0.34)"/><rect x="220" y="70" width="12" height="30" rx="1" fill="rgba(44,92,72,0.34)"/><rect x="242" y="72" width="12" height="28" rx="1" fill="rgba(44,92,72,0.85)"/></svg>
         </div>
       </div>
 
@@ -1227,12 +1289,14 @@
         <div>
           <div class="celda-num">6 semanas</div>
           <div class="celda-texto">
-            Stock, cuenta corriente y reportes unificados. De cero a operación ordenada en un mes y medio.
+            Stock, cuenta corriente y reportes unificados. De cero a operación ordenada en <strong>un mes y medio</strong>.
           </div>
+          <svg class="graf-linea" viewBox="0 0 300 40" aria-hidden="true"><line x1="6" y1="12" x2="294" y2="12" stroke="rgba(18,40,31,0.30)" stroke-width="1"/><circle cx="6.0" cy="12" r="5" fill="#12281F"/><text x="6.0" y="32" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.1em" fill="rgba(18,40,31,0.55)">S1</text><circle cx="63.6" cy="12" r="5" fill="#12281F"/><text x="63.6" y="32" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.1em" fill="rgba(18,40,31,0.55)">S2</text><circle cx="121.2" cy="12" r="5" fill="#12281F"/><text x="121.2" y="32" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.1em" fill="rgba(18,40,31,0.55)">S3</text><circle cx="178.8" cy="12" r="5" fill="#12281F"/><text x="178.8" y="32" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.1em" fill="rgba(18,40,31,0.55)">S4</text><circle cx="236.4" cy="12" r="5" fill="#12281F"/><text x="236.4" y="32" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.1em" fill="rgba(18,40,31,0.55)">S5</text><circle cx="294.0" cy="12" r="5" fill="#12281F"/><text x="294.0" y="32" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.1em" fill="rgba(18,40,31,0.55)">S6</text></svg>
         </div>
       </div>
 
       <div class="celda c-hoja">
+        <svg class="graf-onda" viewBox="0 0 350 100" preserveAspectRatio="none" aria-hidden="true"><line x1="2.0" y1="82.0" x2="2.0" y2="100" stroke="rgba(125,166,139,0.16)" stroke-width="1.5"/><line x1="5.6" y1="78.8" x2="5.6" y2="100" stroke="rgba(125,166,139,0.16)" stroke-width="1.5"/><line x1="9.2" y1="75.9" x2="9.2" y2="100" stroke="rgba(125,166,139,0.17)" stroke-width="1.5"/><line x1="12.8" y1="73.7" x2="12.8" y2="100" stroke="rgba(125,166,139,0.17)" stroke-width="1.5"/><line x1="16.4" y1="72.2" x2="16.4" y2="100" stroke="rgba(125,166,139,0.17)" stroke-width="1.5"/><line x1="20.0" y1="71.6" x2="20.0" y2="100" stroke="rgba(125,166,139,0.17)" stroke-width="1.5"/><line x1="23.6" y1="71.9" x2="23.6" y2="100" stroke="rgba(125,166,139,0.18)" stroke-width="1.5"/><line x1="27.2" y1="72.6" x2="27.2" y2="100" stroke="rgba(125,166,139,0.18)" stroke-width="1.5"/><line x1="30.8" y1="73.7" x2="30.8" y2="100" stroke="rgba(125,166,139,0.18)" stroke-width="1.5"/><line x1="34.4" y1="74.8" x2="34.4" y2="100" stroke="rgba(125,166,139,0.18)" stroke-width="1.5"/><line x1="38.0" y1="75.5" x2="38.0" y2="100" stroke="rgba(125,166,139,0.19)" stroke-width="1.5"/><line x1="41.6" y1="75.8" x2="41.6" y2="100" stroke="rgba(125,166,139,0.19)" stroke-width="1.5"/><line x1="45.2" y1="75.6" x2="45.2" y2="100" stroke="rgba(125,166,139,0.19)" stroke-width="1.5"/><line x1="48.8" y1="74.8" x2="48.8" y2="100" stroke="rgba(125,166,139,0.20)" stroke-width="1.5"/><line x1="52.4" y1="73.8" x2="52.4" y2="100" stroke="rgba(125,166,139,0.20)" stroke-width="1.5"/><line x1="56.0" y1="72.8" x2="56.0" y2="100" stroke="rgba(125,166,139,0.20)" stroke-width="1.5"/><line x1="59.6" y1="72.0" x2="59.6" y2="100" stroke="rgba(125,166,139,0.20)" stroke-width="1.5"/><line x1="63.2" y1="71.7" x2="63.2" y2="100" stroke="rgba(125,166,139,0.21)" stroke-width="1.5"/><line x1="66.8" y1="72.1" x2="66.8" y2="100" stroke="rgba(125,166,139,0.21)" stroke-width="1.5"/><line x1="70.4" y1="73.1" x2="70.4" y2="100" stroke="rgba(125,166,139,0.21)" stroke-width="1.5"/><line x1="74.0" y1="74.8" x2="74.0" y2="100" stroke="rgba(125,166,139,0.21)" stroke-width="1.5"/><line x1="77.6" y1="76.8" x2="77.6" y2="100" stroke="rgba(125,166,139,0.22)" stroke-width="1.5"/><line x1="81.2" y1="78.9" x2="81.2" y2="100" stroke="rgba(125,166,139,0.22)" stroke-width="1.5"/><line x1="84.8" y1="80.6" x2="84.8" y2="100" stroke="rgba(125,166,139,0.22)" stroke-width="1.5"/><line x1="88.4" y1="81.7" x2="88.4" y2="100" stroke="rgba(125,166,139,0.23)" stroke-width="1.5"/><line x1="92.0" y1="82.0" x2="92.0" y2="100" stroke="rgba(125,166,139,0.23)" stroke-width="1.5"/><line x1="95.6" y1="81.3" x2="95.6" y2="100" stroke="rgba(125,166,139,0.23)" stroke-width="1.5"/><line x1="99.2" y1="79.6" x2="99.2" y2="100" stroke="rgba(125,166,139,0.23)" stroke-width="1.5"/><line x1="102.8" y1="77.2" x2="102.8" y2="100" stroke="rgba(125,166,139,0.24)" stroke-width="1.5"/><line x1="106.4" y1="74.2" x2="106.4" y2="100" stroke="rgba(125,166,139,0.24)" stroke-width="1.5"/><line x1="110.0" y1="71.1" x2="110.0" y2="100" stroke="rgba(125,166,139,0.24)" stroke-width="1.5"/><line x1="113.6" y1="68.1" x2="113.6" y2="100" stroke="rgba(125,166,139,0.24)" stroke-width="1.5"/><line x1="117.2" y1="65.7" x2="117.2" y2="100" stroke="rgba(125,166,139,0.25)" stroke-width="1.5"/><line x1="120.8" y1="63.8" x2="120.8" y2="100" stroke="rgba(125,166,139,0.25)" stroke-width="1.5"/><line x1="124.4" y1="62.7" x2="124.4" y2="100" stroke="rgba(125,166,139,0.25)" stroke-width="1.5"/><line x1="128.0" y1="62.1" x2="128.0" y2="100" stroke="rgba(125,166,139,0.26)" stroke-width="1.5"/><line x1="131.6" y1="61.9" x2="131.6" y2="100" stroke="rgba(125,166,139,0.26)" stroke-width="1.5"/><line x1="135.2" y1="61.9" x2="135.2" y2="100" stroke="rgba(125,166,139,0.26)" stroke-width="1.5"/><line x1="138.8" y1="61.7" x2="138.8" y2="100" stroke="rgba(125,166,139,0.26)" stroke-width="1.5"/><line x1="142.4" y1="61.1" x2="142.4" y2="100" stroke="rgba(125,166,139,0.27)" stroke-width="1.5"/><line x1="146.0" y1="60.0" x2="146.0" y2="100" stroke="rgba(125,166,139,0.27)" stroke-width="1.5"/><line x1="149.6" y1="58.4" x2="149.6" y2="100" stroke="rgba(125,166,139,0.27)" stroke-width="1.5"/><line x1="153.2" y1="56.3" x2="153.2" y2="100" stroke="rgba(125,166,139,0.27)" stroke-width="1.5"/><line x1="156.8" y1="54.1" x2="156.8" y2="100" stroke="rgba(125,166,139,0.28)" stroke-width="1.5"/><line x1="160.4" y1="52.0" x2="160.4" y2="100" stroke="rgba(125,166,139,0.28)" stroke-width="1.5"/><line x1="164.0" y1="50.4" x2="164.0" y2="100" stroke="rgba(125,166,139,0.28)" stroke-width="1.5"/><line x1="167.6" y1="49.4" x2="167.6" y2="100" stroke="rgba(125,166,139,0.29)" stroke-width="1.5"/><line x1="171.2" y1="49.3" x2="171.2" y2="100" stroke="rgba(125,166,139,0.29)" stroke-width="1.5"/><line x1="174.8" y1="50.1" x2="174.8" y2="100" stroke="rgba(125,166,139,0.29)" stroke-width="1.5"/><line x1="178.4" y1="51.7" x2="178.4" y2="100" stroke="rgba(125,166,139,0.29)" stroke-width="1.5"/><line x1="182.0" y1="53.8" x2="182.0" y2="100" stroke="rgba(125,166,139,0.30)" stroke-width="1.5"/><line x1="185.6" y1="56.2" x2="185.6" y2="100" stroke="rgba(125,166,139,0.30)" stroke-width="1.5"/><line x1="189.2" y1="58.4" x2="189.2" y2="100" stroke="rgba(125,166,139,0.30)" stroke-width="1.5"/><line x1="192.8" y1="60.2" x2="192.8" y2="100" stroke="rgba(125,166,139,0.31)" stroke-width="1.5"/><line x1="196.4" y1="61.2" x2="196.4" y2="100" stroke="rgba(125,166,139,0.31)" stroke-width="1.5"/><line x1="200.0" y1="61.3" x2="200.0" y2="100" stroke="rgba(125,166,139,0.31)" stroke-width="1.5"/><line x1="203.6" y1="60.5" x2="203.6" y2="100" stroke="rgba(125,166,139,0.31)" stroke-width="1.5"/><line x1="207.2" y1="59.1" x2="207.2" y2="100" stroke="rgba(125,166,139,0.32)" stroke-width="1.5"/><line x1="210.8" y1="57.1" x2="210.8" y2="100" stroke="rgba(125,166,139,0.32)" stroke-width="1.5"/><line x1="214.4" y1="55.0" x2="214.4" y2="100" stroke="rgba(125,166,139,0.32)" stroke-width="1.5"/><line x1="218.0" y1="53.0" x2="218.0" y2="100" stroke="rgba(125,166,139,0.32)" stroke-width="1.5"/><line x1="221.6" y1="51.4" x2="221.6" y2="100" stroke="rgba(125,166,139,0.33)" stroke-width="1.5"/><line x1="225.2" y1="50.3" x2="225.2" y2="100" stroke="rgba(125,166,139,0.33)" stroke-width="1.5"/><line x1="228.8" y1="49.7" x2="228.8" y2="100" stroke="rgba(125,166,139,0.33)" stroke-width="1.5"/><line x1="232.4" y1="49.5" x2="232.4" y2="100" stroke="rgba(125,166,139,0.34)" stroke-width="1.5"/><line x1="236.0" y1="49.4" x2="236.0" y2="100" stroke="rgba(125,166,139,0.34)" stroke-width="1.5"/><line x1="239.6" y1="49.2" x2="239.6" y2="100" stroke="rgba(125,166,139,0.34)" stroke-width="1.5"/><line x1="243.2" y1="48.6" x2="243.2" y2="100" stroke="rgba(125,166,139,0.34)" stroke-width="1.5"/><line x1="246.8" y1="47.5" x2="246.8" y2="100" stroke="rgba(125,166,139,0.35)" stroke-width="1.5"/><line x1="250.4" y1="45.6" x2="250.4" y2="100" stroke="rgba(125,166,139,0.35)" stroke-width="1.5"/><line x1="254.0" y1="43.0" x2="254.0" y2="100" stroke="rgba(125,166,139,0.35)" stroke-width="1.5"/><line x1="257.6" y1="39.9" x2="257.6" y2="100" stroke="rgba(125,166,139,0.35)" stroke-width="1.5"/><line x1="261.2" y1="36.6" x2="261.2" y2="100" stroke="rgba(125,166,139,0.36)" stroke-width="1.5"/><line x1="264.8" y1="33.3" x2="264.8" y2="100" stroke="rgba(125,166,139,0.36)" stroke-width="1.5"/><line x1="268.4" y1="30.5" x2="268.4" y2="100" stroke="rgba(125,166,139,0.36)" stroke-width="1.5"/><line x1="272.0" y1="28.3" x2="272.0" y2="100" stroke="rgba(125,166,139,0.37)" stroke-width="1.5"/><line x1="275.6" y1="27.1" x2="275.6" y2="100" stroke="rgba(125,166,139,0.37)" stroke-width="1.5"/><line x1="279.2" y1="26.9" x2="279.2" y2="100" stroke="rgba(125,166,139,0.37)" stroke-width="1.5"/><line x1="282.8" y1="27.6" x2="282.8" y2="100" stroke="rgba(125,166,139,0.37)" stroke-width="1.5"/><line x1="286.4" y1="28.9" x2="286.4" y2="100" stroke="rgba(125,166,139,0.38)" stroke-width="1.5"/><line x1="290.0" y1="30.7" x2="290.0" y2="100" stroke="rgba(125,166,139,0.38)" stroke-width="1.5"/><line x1="293.6" y1="32.4" x2="293.6" y2="100" stroke="rgba(125,166,139,0.38)" stroke-width="1.5"/><line x1="297.2" y1="33.8" x2="297.2" y2="100" stroke="rgba(125,166,139,0.38)" stroke-width="1.5"/><line x1="300.8" y1="34.7" x2="300.8" y2="100" stroke="rgba(125,166,139,0.39)" stroke-width="1.5"/><line x1="304.4" y1="34.9" x2="304.4" y2="100" stroke="rgba(125,166,139,0.39)" stroke-width="1.5"/><line x1="308.0" y1="34.5" x2="308.0" y2="100" stroke="rgba(125,166,139,0.39)" stroke-width="1.5"/><line x1="311.6" y1="33.5" x2="311.6" y2="100" stroke="rgba(125,166,139,0.40)" stroke-width="1.5"/><line x1="315.2" y1="32.3" x2="315.2" y2="100" stroke="rgba(125,166,139,0.40)" stroke-width="1.5"/><line x1="318.8" y1="31.0" x2="318.8" y2="100" stroke="rgba(125,166,139,0.40)" stroke-width="1.5"/><line x1="322.4" y1="30.1" x2="322.4" y2="100" stroke="rgba(125,166,139,0.40)" stroke-width="1.5"/><line x1="326.0" y1="29.6" x2="326.0" y2="100" stroke="rgba(125,166,139,0.41)" stroke-width="1.5"/><line x1="329.6" y1="29.6" x2="329.6" y2="100" stroke="rgba(125,166,139,0.41)" stroke-width="1.5"/><line x1="333.2" y1="30.1" x2="333.2" y2="100" stroke="rgba(125,166,139,0.41)" stroke-width="1.5"/><line x1="336.8" y1="30.9" x2="336.8" y2="100" stroke="rgba(125,166,139,0.41)" stroke-width="1.5"/><line x1="340.4" y1="31.8" x2="340.4" y2="100" stroke="rgba(125,166,139,0.42)" stroke-width="1.5"/><line x1="344.0" y1="32.4" x2="344.0" y2="100" stroke="rgba(125,166,139,0.42)" stroke-width="1.5"/></svg>
         <div class="celda-frase">Todo lo que ves acá lo implementamos nosotros. No es teoría.</div>
         <a href="/ejemplos" class="celda-link">Ver ejemplos</a>
       </div>
@@ -1243,9 +1307,9 @@
 
 <!-- ═══ QUOTE ═══ -->
 <section class="quote grain">
-  <div class="quote-arco"></div>
+  <svg class="quote-arco" viewBox="0 0 560 560" fill="none" aria-hidden="true"><circle cx="280" cy="280" r="228" fill="none" stroke="rgba(125,166,139,0.14)" stroke-width="1"/><line x1="516.0" y1="280.0" x2="542.0" y2="280.0" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="515.7" y1="292.4" x2="529.7" y2="293.1" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="514.7" y1="304.7" x2="528.6" y2="306.1" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="513.1" y1="316.9" x2="526.9" y2="319.1" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="510.8" y1="329.1" x2="524.5" y2="332.0" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="508.0" y1="341.1" x2="533.1" y2="347.8" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="504.4" y1="352.9" x2="517.8" y2="357.3" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="500.3" y1="364.6" x2="513.4" y2="369.6" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="495.6" y1="376.0" x2="508.4" y2="381.7" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="490.3" y1="387.1" x2="502.8" y2="393.5" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="484.4" y1="398.0" x2="506.9" y2="411.0" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="477.9" y1="408.5" x2="489.7" y2="416.2" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="470.9" y1="418.7" x2="482.3" y2="426.9" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="463.4" y1="428.5" x2="474.3" y2="437.3" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="455.4" y1="437.9" x2="465.8" y2="447.3" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="446.9" y1="446.9" x2="465.3" y2="465.3" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="437.9" y1="455.4" x2="447.3" y2="465.8" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="428.5" y1="463.4" x2="437.3" y2="474.3" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="418.7" y1="470.9" x2="426.9" y2="482.3" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="408.5" y1="477.9" x2="416.2" y2="489.7" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="398.0" y1="484.4" x2="411.0" y2="506.9" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="387.1" y1="490.3" x2="393.5" y2="502.8" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="376.0" y1="495.6" x2="381.7" y2="508.4" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="364.6" y1="500.3" x2="369.6" y2="513.4" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="352.9" y1="504.4" x2="357.3" y2="517.8" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="341.1" y1="508.0" x2="347.8" y2="533.1" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="329.1" y1="510.8" x2="332.0" y2="524.5" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="316.9" y1="513.1" x2="319.1" y2="526.9" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="304.7" y1="514.7" x2="306.1" y2="528.6" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="292.4" y1="515.7" x2="293.1" y2="529.7" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="280.0" y1="516.0" x2="280.0" y2="542.0" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="267.6" y1="515.7" x2="266.9" y2="529.7" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="255.3" y1="514.7" x2="253.9" y2="528.6" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="243.1" y1="513.1" x2="240.9" y2="526.9" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="230.9" y1="510.8" x2="228.0" y2="524.5" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="218.9" y1="508.0" x2="212.2" y2="533.1" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="207.1" y1="504.4" x2="202.7" y2="517.8" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="195.4" y1="500.3" x2="190.4" y2="513.4" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="184.0" y1="495.6" x2="178.3" y2="508.4" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="172.9" y1="490.3" x2="166.5" y2="502.8" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="162.0" y1="484.4" x2="149.0" y2="506.9" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="151.5" y1="477.9" x2="143.8" y2="489.7" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="141.3" y1="470.9" x2="133.1" y2="482.3" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="131.5" y1="463.4" x2="122.7" y2="474.3" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="122.1" y1="455.4" x2="112.7" y2="465.8" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="113.1" y1="446.9" x2="94.7" y2="465.3" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="104.6" y1="437.9" x2="94.2" y2="447.3" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="96.6" y1="428.5" x2="85.7" y2="437.3" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="89.1" y1="418.7" x2="77.7" y2="426.9" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="82.1" y1="408.5" x2="70.3" y2="416.2" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="75.6" y1="398.0" x2="53.1" y2="411.0" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="69.7" y1="387.1" x2="57.2" y2="393.5" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="64.4" y1="376.0" x2="51.6" y2="381.7" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="59.7" y1="364.6" x2="46.6" y2="369.6" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="55.6" y1="352.9" x2="42.2" y2="357.3" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="52.0" y1="341.1" x2="26.9" y2="347.8" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="49.2" y1="329.1" x2="35.5" y2="332.0" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="46.9" y1="316.9" x2="33.1" y2="319.1" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="45.3" y1="304.7" x2="31.4" y2="306.1" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="44.3" y1="292.4" x2="30.3" y2="293.1" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="44.0" y1="280.0" x2="18.0" y2="280.0" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="44.3" y1="267.6" x2="30.3" y2="266.9" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="45.3" y1="255.3" x2="31.4" y2="253.9" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="46.9" y1="243.1" x2="33.1" y2="240.9" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="49.2" y1="230.9" x2="35.5" y2="228.0" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="52.0" y1="218.9" x2="26.9" y2="212.2" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="55.6" y1="207.1" x2="42.2" y2="202.7" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="59.7" y1="195.4" x2="46.6" y2="190.4" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="64.4" y1="184.0" x2="51.6" y2="178.3" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="69.7" y1="172.9" x2="57.2" y2="166.5" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="75.6" y1="162.0" x2="53.1" y2="149.0" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="82.1" y1="151.5" x2="70.3" y2="143.8" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="89.1" y1="141.3" x2="77.7" y2="133.1" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="96.6" y1="131.5" x2="85.7" y2="122.7" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="104.6" y1="122.1" x2="94.2" y2="112.7" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="113.1" y1="113.1" x2="94.7" y2="94.7" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="122.1" y1="104.6" x2="112.7" y2="94.2" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="131.5" y1="96.6" x2="122.7" y2="85.7" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="141.3" y1="89.1" x2="133.1" y2="77.7" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="151.5" y1="82.1" x2="143.8" y2="70.3" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="162.0" y1="75.6" x2="149.0" y2="53.1" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="172.9" y1="69.7" x2="166.5" y2="57.2" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="184.0" y1="64.4" x2="178.3" y2="51.6" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="195.4" y1="59.7" x2="190.4" y2="46.6" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="207.1" y1="55.6" x2="202.7" y2="42.2" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="218.9" y1="52.0" x2="212.2" y2="26.9" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="230.9" y1="49.2" x2="228.0" y2="35.5" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="243.1" y1="46.9" x2="240.9" y2="33.1" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="255.3" y1="45.3" x2="253.9" y2="31.4" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="267.6" y1="44.3" x2="266.9" y2="30.3" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="280.0" y1="44.0" x2="280.0" y2="18.0" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="292.4" y1="44.3" x2="293.1" y2="30.3" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="304.7" y1="45.3" x2="306.1" y2="31.4" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="316.9" y1="46.9" x2="319.1" y2="33.1" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="329.1" y1="49.2" x2="332.0" y2="35.5" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="341.1" y1="52.0" x2="347.8" y2="26.9" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="352.9" y1="55.6" x2="357.3" y2="42.2" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="364.6" y1="59.7" x2="369.6" y2="46.6" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="376.0" y1="64.4" x2="381.7" y2="51.6" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="387.1" y1="69.7" x2="393.5" y2="57.2" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="398.0" y1="75.6" x2="411.0" y2="53.1" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="408.5" y1="82.1" x2="416.2" y2="70.3" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="418.7" y1="89.1" x2="426.9" y2="77.7" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="428.5" y1="96.6" x2="437.3" y2="85.7" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="437.9" y1="104.6" x2="447.3" y2="94.2" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="446.9" y1="113.1" x2="465.3" y2="94.7" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="455.4" y1="122.1" x2="465.8" y2="112.7" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="463.4" y1="131.5" x2="474.3" y2="122.7" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="470.9" y1="141.3" x2="482.3" y2="133.1" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="477.9" y1="151.5" x2="489.7" y2="143.8" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="484.4" y1="162.0" x2="506.9" y2="149.0" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="490.3" y1="172.9" x2="502.8" y2="166.5" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="495.6" y1="184.0" x2="508.4" y2="178.3" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="500.3" y1="195.4" x2="513.4" y2="190.4" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="504.4" y1="207.1" x2="517.8" y2="202.7" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="508.0" y1="218.9" x2="533.1" y2="212.2" stroke="rgba(125,166,139,0.16)" stroke-width="1"/><line x1="510.8" y1="230.9" x2="524.5" y2="228.0" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="513.1" y1="243.1" x2="526.9" y2="240.9" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="514.7" y1="255.3" x2="528.6" y2="253.9" stroke="rgba(125,166,139,0.09)" stroke-width="1"/><line x1="515.7" y1="267.6" x2="529.7" y2="266.9" stroke="rgba(125,166,139,0.09)" stroke-width="1"/></svg>
   <p class="quote-texto">
-    Tu negocio no necesita más ventas. <span>Necesita orden.</span>
+    Tu negocio no necesita<br>más ventas.<br><span class="serif">Necesita orden.</span>
   </p>
 </section>
 
@@ -1253,10 +1317,10 @@
 <!-- ═══ CTA ═══ -->
 <section class="cta" id="contacto">
   <h2 class="cta-titulo">
-    Si tu negocio depende de vos para funcionar,
-    <span>no está listo para crecer.</span>
+    Si tu negocio depende de vos<br>para funcionar,
+    <span class="serif">no está listo para crecer.</span>
   </h2>
-  <p class="cta-sub">En 30 minutos sabemos si podemos ayudarte y cómo.</p>
+  <p class="cta-sub">En <strong>30 minutos</strong> sabemos si podemos ayudarte y cómo.</p>
   <a href="/diagnostico" class="btn btn-oscuro">Agendar diagnóstico</a>
 </section>
 

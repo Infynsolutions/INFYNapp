@@ -28,7 +28,7 @@ difusas de colores, azules y naranjas de dashboard.
 
 ## Tipografía
 
-**Inter, sola.** Sin serif, sin display, sin condensada.
+**Inter** para todo + **Instrument Serif itálica** como acento.
 
 | Uso                  | Weight | Detalle                                     |
 |----------------------|--------|---------------------------------------------|
@@ -40,6 +40,46 @@ difusas de colores, azules y naranjas de dashboard.
 
 Nunca weight 700/800: el peso extra es lo que hace que un sitio lea como startup.
 La jerarquía se construye con tamaño y aire, no con negrita.
+
+### Acento serif (`.serif`)
+
+Instrument Serif itálica, 400, en la **frase que cierra la idea** — nunca en un
+párrafo entero. Una sola por bloque de texto. Va a `1.06em` porque su altura x
+es menor que la de Inter y sin ese ajuste parece hundida.
+
+Color: `--verde-hoja` sobre crema, `--salvia` sobre verde.
+
+| Bloque      | Grotesk                          | Serif itálica                  |
+|-------------|----------------------------------|--------------------------------|
+| Hero        | Tu negocio merece un sistema a medida | *sin que estés pendiente.* |
+| Problema    | Tu negocio crece. Pero el caos también. El problema no es la venta. | *Es la falta de sistema.* |
+| Método      | Tres capas.                      | *Sin huecos entre ellas.*      |
+| Ciro        | Ciro.                            | *Tu co-pensador estratégico 24/7.* |
+| Resultados  | Números reales.                  | *Casos reales.*                |
+| Quote       | Tu negocio no necesita más ventas. | *Necesita orden.*            |
+| CTA         | Si tu negocio depende de vos para funcionar, | *no está listo para crecer.* |
+
+### Negrita de cuerpo (`strong`)
+
+Weight 600 sobre párrafos de color atenuado: la negrita levanta el dato que
+importa sin subir de peso el sistema. Una o dos por párrafo, nunca más.
+
+El color sale de `--fuerte`, que cada bloque define según su fondo:
+
+```css
+strong { font-weight: 600; color: var(--fuerte, var(--tinta)); }
+.hero, .metodo, .quote, footer,
+.c-verde, .c-hoja, .app-side { --fuerte: var(--crema); }
+.c-salvia { --fuerte: var(--verde); }
+```
+
+Se hace con variable y no con una lista de selectores para que una negrita
+nueva en un bloque oscuro no quede en tinta ilegible.
+
+### Quiebres de línea
+
+Los titulares llevan `<br>` explícitos. El quiebre automático deja palabras
+huérfanas ("crecer." sola en una línea) y arruina la composición.
 
 ---
 
@@ -74,7 +114,25 @@ nunca relleno ni blur.
 `border-top-right-radius: 150px` / `border-bottom-left-radius: 150px` en las
 celdas del bento. Un solo vértice por celda, alternando. En mobile baja a 90px.
 
-### 5. Filetes
+### 5. Gráficos
+
+SVG plano, generado con geometría medida: sin relleno de color, sin blur, sin
+animación. Cada uno dice algo del dato que acompaña.
+
+| Gráfico       | Dónde                    | Qué es                                        |
+|---------------|--------------------------|-----------------------------------------------|
+| Arco medido   | Hero                     | Anillos + ticks radiales, como un instrumento |
+| Arco de ticks | Quote                    | Círculo completo de ticks detrás de la frase   |
+| Tres capas    | Método                   | 3 arcos concéntricos de largo creciente, uno por capa, con `01/02/03` al final de cada arco |
+| Sparkline     | Bento `+30%`             | Línea de tendencia ascendente con área         |
+| Barras        | Bento `−70%`             | Barras descendentes, la última destacada       |
+| Línea de tiempo | Bento `6 semanas`      | 6 nodos, `S1`–`S6`                             |
+| Onda          | Bento (celda con aire)   | Líneas verticales ascendentes ancladas a la base |
+
+Reglas: trazos de 1–2,5px en salvia con opacidad entre 0,10 y 0,85; nunca
+detrás de un párrafo (compite con la lectura) — van en el aire de la celda.
+
+### 6. Filetes
 Separadores de 1px (`rgba(20,32,27,0.14)` sobre crema, `rgba(231,224,206,0.16)`
 sobre verde) para columnas y pasos. Reemplazan a las cards con fondo.
 

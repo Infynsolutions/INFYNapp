@@ -48,9 +48,16 @@ Prohibido: verde neón `#2ED47A`, negro puro, gradientes, sombras de color.
 
 ### Tipografía
 
-Inter, sola. Títulos `font-weight: 500` (nunca 700/800), cuerpo `400`,
-labels `600` en uppercase con `letter-spacing: 0.14em`. La jerarquía se hace
-con tamaño y aire, no con negrita.
+Inter para todo, `font-weight` 400–600 (nunca 700/800). Labels en uppercase
+con `letter-spacing: 0.14em`.
+
+**Acento serif** (`.serif`): Instrument Serif itálica en la frase que cierra
+la idea, una por bloque, a `1.06em`. Verde hoja sobre crema, salvia sobre verde.
+
+**Negrita** (`strong`): weight 600 sobre párrafos atenuados. El color sale de
+`--fuerte`, que define cada bloque según su fondo — no una lista de selectores.
+
+Titulares con `<br>` explícitos: el quiebre automático deja palabras huérfanas.
 
 ### Recursos de marca
 
@@ -58,6 +65,8 @@ con tamaño y aire, no con negrita.
 - Arco — círculos concéntricos de 1px en salvia (hero y quote)
 - Esquina cuarto de círculo — `border-radius` de 150px en un solo vértice de las celdas bento
 - Filetes de 1px en vez de cards con fondo
+- Gráficos SVG planos: arco medido (hero), arco de ticks (quote), tres arcos
+  concéntricos (método), sparkline / barras / línea de tiempo / onda (bento)
 - Sin sombras, sin animaciones de entrada, `border-radius` 2–3px en el resto
 
 ### Layouts por sección
