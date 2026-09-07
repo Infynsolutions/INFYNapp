@@ -169,7 +169,7 @@ git commit -m "feat(sitio): hero nuevo — primero medimos, después construimos
 
 **Files:** Modify `index.html` (sección nueva después del hero), `sistema.css`
 
-- [ ] **Step 1: Markup** (reusa `.celda`, `.c-verde`, `.c-hueso`, `.celda-titulo`)
+- [ ] **Step 1: Markup** (reusa `.celda`, `.c-verde`, `.c-hueso`; el título de cada puerta va en `.puerta-titulo`, definido abajo)
 
 Sección `<section class="puertas">` sobre `--crema`, con eyebrow **Por dónde entrás**,
 título `Dos situaciones.<br><em class="serif acento-verde">Un solo camino.</em>` y dos
@@ -193,6 +193,8 @@ Debajo de las dos tarjetas, centrado, con filete arriba:
 ```css
 .puertas { background: var(--crema); padding: 110px 40px; }
 .puertas-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 54px; }
+.puerta-titulo { font-size: 26px; font-weight: 500; letter-spacing: -0.025em; margin-bottom: 16px; }
+.puerta-texto { font-size: 15.5px; line-height: 1.65; opacity: 0.86; max-width: 46ch; }
 .puerta-cierre {
   margin-top: 42px; padding-top: 28px; border-top: 1px solid var(--linea);
   text-align: center; font-size: 17px; line-height: 1.6; color: var(--tinta-media);

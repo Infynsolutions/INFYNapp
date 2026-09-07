@@ -151,8 +151,10 @@ material.*
 
 ## 11. Restricciones técnicas
 
-- HTML + CSS puro, un archivo por página, sin build ni dependencias. `vercel.json` con
-  `cleanUrls: true` **no se toca** (es lo que hace andar `/auditoria`).
+- HTML + CSS puro, sin build ni dependencias. El sistema de diseño sale de `index.html` a
+  un `sistema.css` compartido por `index.html` y `auditoria.html`: la página nueva no
+  puede derivar como derivaron `/diagnostico` y `/ejemplos`, que copiaron el CSS y quedaron
+  atrás. `vercel.json` con `cleanUrls: true` **no se toca** (es lo que hace andar `/auditoria`).
 - Sistema visual de `brand.md` **sin tocar tokens**: crema base, bloques macizos petróleo,
   salvia de acento, Inter 400–600, nunca 700/800, serif itálica una frase por bloque.
 - Los SVG nuevos usan `currentColor` / `var(--token)`. Nunca `rgba()` con el color escrito:
