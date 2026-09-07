@@ -69,3 +69,15 @@ Lista de aprendizajes acumulados sesión a sesión. Revisar al inicio de cada se
 ### Regla: Para revisar en local idéntico a prod, levantar un server (no abrir con `file://`)
 - **Por qué:** El logo usa ruta absoluta (`<img src="/Logo Infyn.png">`) y `vercel.json` tiene `cleanUrls`. Abriendo el `index.html` directo (protocolo `file://`) el logo se ve roto y las rutas absolutas/`/ejemplos` no resuelven — parece un bug del sitio cuando no lo es. Levantando `python3 -m http.server 8000` desde la carpeta del proyecto y abriendo `http://localhost:8000`, las rutas absolutas resuelven igual que en Vercel.
 - **Cuándo aplica:** Cuando Sofia quiere ver cambios en local antes de deployar. Nunca diagnosticar "logo roto / 404" sobre un render `file://`.
+
+### Regla: Verificar DÓNDE vive el código (repo + stack) antes de escribir un plan de implementación
+- **Por qué:** En la sesión del Copensador escribí el plan dos veces sobre supuestos equivocados: primero apuntando a `INFYN/backend` (que resultó ser una copia vieja de Argos), asumiendo además multi-tenant y Python. La realidad: cada cliente Custom es un repo y una base separados, y el piloto (Café Aruba) es Next.js/TS, no Python. Planear sobre el repo equivocado tira a la basura el detalle del plan.
+- **Cuándo aplica:** Antes de redactar cualquier plan de implementación. Confirmar 1) en qué carpeta/repo concreto vive el código objetivo, 2) su stack real (leer package.json / schema), 3) si es multi-tenant o single-tenant. No asumir que el repo del cwd es el destino.
+
+### Regla: Multi-tenancy ≠ reuso entre clientes Custom — son cosas distintas
+- **Por qué:** Argos es multi-tenant (un código, una base, muchos tenants) y sirve a emprendedores chicos (Ciro). Los proyectos Custom (Café Aruba, Blue Motors) son repos y bases separados. El reuso entre ellos NO se logra con multi-tenancy, sino con plantillas (SQL agnóstico al lenguaje + código del agente) que se copian/adaptan, y eventualmente un paquete compartido. Mezclar ambos conceptos lleva a meter clientes Custom como tenants de Argos, que es el modelo equivocado.
+- **Cuándo aplica:** Al diseñar la reutilización de una capa (como el Copensador) entre varios proyectos cliente. Separar "un servicio multi-tenant" de "una plantilla/paquete que cada proyecto instancia". Default: plantilla ahora, paquete cuando aparezca el 2º caso real (YAGNI).
+
+### Regla: Distinguir Ciro (operativo, tier Estándar) del Copensador (estratégico, tier Custom)
+- **Por qué:** Comparten stack (Claude API + Supabase) pero son productos distintos. Ciro = copiloto operativo del día a día para el emprendedor chico, sobre Argos multi-tenant. Copensador = análisis estratégico profundo (cruce económico/financiero/patrimonial sobre dims conformadas) para la dirección de un negocio Custom, en su repo y base propios. No mezclar: el Copensador solo es viable cuando INFYN diseña/controla el esquema desde el modelado.
+- **Cuándo aplica:** Cualquier decisión sobre dónde vive una capa de IA en el ecosistema INFYN. Preguntar primero: ¿es operativo o estratégico? ¿tier Estándar (Argos) o Custom (repo del cliente)?

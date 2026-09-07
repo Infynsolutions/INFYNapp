@@ -80,6 +80,30 @@ Sesión de refinamiento puntual del hero. El problema no era estético sino estr
 ### Review
 Sesión de definición de producto, sin código. El cambio de fondo: Ciro deja de ser "la capa de chat sobre Argos" y pasa a ser **el producto integral** (sistema + IA). La corrección más valiosa fue de segmento: el reflejo de elegir Café Aruba como primer cliente chocaba con el diagnóstico (ropa/calzado, variantes, temporada) — un café es otra operación. Sofia defendió con argumento construir la arquitectura multi-tenant completa desde el día uno (su stack default, costo marginal casi cero). Quedó claro que el riesgo del producto no es la IA ni la arquitectura, sino que el import de Excel sobreviva al Excel real de un comercio.
 
+## Sesión 2026-06-21 — Copensador (tier Custom): spec + plan técnico (cerrada, sin código)
+
+### Hecho
+- [x] Autenticado NotebookLM (MCP) + registrado notebook "Auditoría Continua + IA Generativa (Sánchez De Boeck)"
+- [x] Extraído el blueprint técnico del Compensador Estratégico del notebook (entrenamiento, XMLA/MCP, Power BI semántico, Claude Project)
+- [x] Brainstorming: definido el Copensador como **producto del tier Custom** (≠ Ciro, que es el copiloto operativo del tier Estándar)
+- [x] Sofia aportó su propio doc (`Plan_Copensador_Custom.docx`) — arquitectura en capas ya pensada
+- [x] **Spec consolidado y aprobado** → `docs/superpowers/specs/2026-06-21-copensador-custom-design.md` (su doc + 5 fixes de review: SQL guardado, fase de validación, política doble moneda, centro `__global`, MODELO.md auto-generado)
+- [x] **Plan de implementación escrito** (15 tasks TDD) → `docs/superpowers/plans/2026-06-21-copensador-custom.md` — pero apuntando al repo/stack EQUIVOCADO (INFYN/backend = copia de Argos, Python)
+- [x] Corrección clave de Sofia: cada cliente Custom es **repo + base separados** (Café Aruba, Blue Motors), no tenants de Argos. Argos = multi-tenant para emprendedores chicos (Ciro)
+- [x] Decisiones cerradas: stack **TS/Next.js** (largo plazo: matchea stack default, cero infra nueva por cliente, paquete TS futuro), reuso **plantilla ahora → paquete después**
+- [x] Aterrizado a Café Aruba real: distribuidora de café por ruta; mapeadas las 3 lentes a sus tablas (`movements`, `cash_transactions`, `stock_purchases`, `client_balances`, etc.)
+
+### Pendiente (retomar mañana)
+- [ ] **Cerrar decisión keystone:** eje conformado para Café Aruba — vendedor/ruta (recomendado, único presente en las 3 lentes) vs zona vs producto. Sofia frenó antes de elegir.
+- [ ] **Reescribir el plan de implementación** apuntando a `Cafe Aruba/` en TS/Next.js, sin `tenant_id`, con vistas sobre las tablas reales (el SQL es agnóstico al lenguaje y se reusa; solo se reescribe la capa del agente)
+- [ ] Definir política de tipo de cambio (MEP) para Café Aruba (flujos point-in-time, patrimonial revaluado a cierre)
+- [ ] Agregar `@anthropic-ai/sdk` + driver Postgres read-only (`postgres`/`pg`) a Café Aruba
+- [ ] Crear rol `copensador_ro` en la Supabase de Café Aruba (solo lectura, solo schema analytics)
+- [ ] Más adelante: superficie de entrega UI (vista "Copensador" con render de las 3 lentes + mapa)
+
+### Review
+Sesión 100% de diseño, sin código. El valor: separar dos productos que se confundían — **Ciro** (operativo, tier Estándar, Argos multi-tenant) y **Copensador** (estratégico, tier Custom, repos/bases por cliente). El spec quedó sólido (capas Kimball: dims conformadas → vistas de dominio → mart integrado → capa semántica → agente read-only). El plan se escribió dos veces sobre supuestos equivocados de repo/stack porque no verifiqué DÓNDE vive el código antes de planear — corregido cuando Sofia aclaró la separación de proyectos. Quedó listo para reescribir el plan mañana contra Café Aruba real, faltando solo elegir el eje keystone.
+
 ## Backlog (próximas sesiones)
 
 - [ ] WhatsApp como escalón blando además de "agendar diagnóstico"
