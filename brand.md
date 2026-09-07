@@ -105,6 +105,22 @@ sobre verde) para columnas y pasos. Reemplazan a las cards con fondo.
 
 ---
 
+## Logo
+
+Símbolo infinito con flecha (`Logo Infyn.png`, blanco puro con alpha).
+
+En el sitio no se usa como `<img>`: se enmascara (`mask-image`) sobre un fondo
+`var(--crema)`, y el recorte deja solo el símbolo — el wordmark del PNG se
+descarta y el nombre se compone con Inter, igual que el resto del sitio. Así el
+logo toma siempre un color de la paleta y funciona sobre cualquier fondo con
+solo cambiar el `background`.
+
+Nota: los `*.png` están en `.gitignore`, así que el archivo del logo vive solo
+en el checkout local y llega a producción por el deploy de Vercel desde la
+carpeta, no por git. Si el archivo falta, el sitio degrada al wordmark de texto.
+
+---
+
 ## Tono de comunicación
 
 Directo. Claro. Sin humo.

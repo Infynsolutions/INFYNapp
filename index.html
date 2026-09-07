@@ -152,6 +152,22 @@
     border-bottom: 1px solid var(--linea-clara);
   }
   .logo { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+  /* El PNG del logo es blanco puro: se enmascara para que tome el crema exacto */
+  .logo-marca {
+    --lw: 36px;                            /* ancho visible del símbolo */
+    width: var(--lw);
+    height: calc(var(--lw) * 0.4458);      /* recorta el wordmark del PNG */
+    background: var(--crema);
+    flex-shrink: 0;
+    -webkit-mask-image: url('/Logo Infyn.png');
+    mask-image: url('/Logo Infyn.png');
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: calc(var(--lw) * 1.6205) auto;
+    mask-size: calc(var(--lw) * 1.6205) auto;
+    -webkit-mask-position: calc(var(--lw) * -0.3193) calc(var(--lw) * -0.2741);
+    mask-position: calc(var(--lw) * -0.3193) calc(var(--lw) * -0.2741);
+  }
   .logo-wordmark {
     font-size: 16px;
     font-weight: 600;
@@ -852,7 +868,7 @@
 <!-- ═══ NAV ═══ -->
 <nav>
   <a href="#" class="logo">
-    <img src="/Logo Infyn.png" alt="INFYN" style="height:30px;width:auto;">
+    <span class="logo-marca" role="img" aria-label="INFYN"></span>
     <span class="logo-wordmark">INFYN</span>
   </a>
   <ul class="nav-links">
@@ -1248,7 +1264,7 @@
 <!-- ═══ FOOTER ═══ -->
 <footer>
   <a href="#" class="logo">
-    <img src="/Logo Infyn.png" alt="INFYN" style="height:26px;width:auto;">
+    <span class="logo-marca" role="img" aria-label="INFYN" style="--lw:30px;"></span>
     <span class="logo-wordmark" style="font-size:14px;">INFYN</span>
   </a>
   <ul class="footer-nav">
