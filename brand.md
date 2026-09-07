@@ -10,19 +10,27 @@ tradicional, no como un producto SaaS.
 
 | Token          | Hex       | Uso                                                |
 |----------------|-----------|----------------------------------------------------|
-| Verde          | `#12281F` | Bloques macizos (hero, método, quote, footer, nav) |
-| Verde medio    | `#1E4034` | Hover de botones oscuros, items activos            |
-| Verde hoja     | `#2C5C48` | Estados, íconos de línea, barras de datos          |
-| Salvia         | `#7DA68B` | Acento: labels, filetes, números, bloques bento    |
-| Salvia claro   | `#A8C4B2` | Variación de salvia                                |
+| Verde          | `#17403A` | Bloques macizos (hero, método, quote, footer, nav) |
+| Verde medio    | `#21544C` | Hover de botones oscuros, items activos            |
+| Verde hoja     | `#2E6B5D` | Estados, íconos de línea, barras de datos          |
+| Salvia         | `#86B0A2` | Acento: labels, filetes, números, bloques bento    |
+| Salvia claro   | `#ADCBC0` | Variación de salvia                                |
 | Crema          | `#E7E0CE` | **Base del sitio** y texto sobre verde             |
 | Crema hueso    | `#F2EFE7` | Bloques claros de respiro (Ciro, CTA)              |
-| Tinta          | `#14201B` | Texto principal sobre crema                        |
-| Tinta media    | `#4E5D55` | Texto secundario                                   |
-| Tinta suave    | `#7A877F` | Labels, metadatos                                  |
+| Tinta          | `#15221F` | Texto principal sobre crema                        |
+| Tinta media    | `#4E5F5A` | Texto secundario                                   |
+| Tinta suave    | `#586764` | Labels, metadatos                                  |
+
+El verde base es **petróleo**, no oliva: tiene azul adentro. Ese matiz es lo que
+lo hace leer serio en vez de "eco". Toda la escala (medio, hoja, salvia) está
+calibrada sobre ese mismo matiz — si se cambia el base, se recalibran los cuatro.
 
 **Prohibido:** verde neón (`#2ED47A`), negro puro, gradientes de color, sombras
 difusas de colores, azules y naranjas de dashboard.
+
+**Contraste:** todos los pares en uso pasan WCAG AA. Los críticos: crema sobre
+verde 8,7:1 · salvia sobre verde 4,8:1 · verde sobre salvia 4,8:1 · tinta suave
+sobre crema 4,5:1. Antes de tocar un color, verificar el par contra su fondo.
 
 ---
 
@@ -133,7 +141,7 @@ Reglas: trazos de 1–2,5px en salvia con opacidad entre 0,10 y 0,85; nunca
 detrás de un párrafo (compite con la lectura) — van en el aire de la celda.
 
 ### 6. Filetes
-Separadores de 1px (`rgba(20,32,27,0.14)` sobre crema, `rgba(231,224,206,0.16)`
+Separadores de 1px (`rgba(21,34,31,0.14)` sobre crema, `rgba(231,224,206,0.16)`
 sobre verde) para columnas y pasos. Reemplazan a las cards con fondo.
 
 ---

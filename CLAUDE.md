@@ -35,13 +35,13 @@ Dirección: **editorial / institucional** (rediseño 2026-09-07). Ver `brand.md`
 ### Colores
 
 ```
-Verde        : #12281F   ← bloques macizos (hero, método, quote, nav, footer)
-Verde medio  : #1E4034   ← hover, items activos
-Verde hoja   : #2C5C48   ← íconos de línea, barras de datos
-Salvia       : #7DA68B   ← acento (labels, filetes, celdas bento)
+Verde        : #17403A   ← bloques macizos (hero, método, quote, nav, footer)
+Verde medio  : #21544C   ← hover, items activos
+Verde hoja   : #2E6B5D   ← íconos de línea, barras de datos
+Salvia       : #86B0A2   ← acento (labels, filetes, celdas bento)
 Crema        : #E7E0CE   ← base del sitio
 Crema hueso  : #F2EFE7   ← bloques claros de respiro
-Tinta        : #14201B   ← texto sobre crema
+Tinta        : #15221F   ← texto sobre crema
 ```
 
 Prohibido: verde neón `#2ED47A`, negro puro, gradientes, sombras de color.
