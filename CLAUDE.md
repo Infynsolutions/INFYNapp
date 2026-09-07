@@ -30,43 +30,49 @@ Ayuda a negocios que crecen en caos a ordenarse con procesos, estructura y visi�
 
 ## Sistema de diseño
 
+Dirección: **editorial / institucional** (rediseño 2026-09-07). Ver `brand.md`.
+
 ### Colores
 
 ```
-Verde principal : #0F7B53
-Verde oscuro    : #0A3F2C
-Verde acento    : #2ED47A   ← highlights en dark, botón primario
-Fondo oscuro    : #060D09   ← base de todas las secciones dark
-Gris claro      : #F5F7F6
-Blanco          : #FFFFFF
+Verde        : #12281F   ← bloques macizos (hero, método, quote, nav, footer)
+Verde medio  : #1E4034   ← hover, items activos
+Verde hoja   : #2C5C48   ← íconos de línea, barras de datos
+Salvia       : #7DA68B   ← acento (labels, filetes, celdas bento)
+Crema        : #E7E0CE   ← base del sitio
+Crema hueso  : #F2EFE7   ← bloques claros de respiro
+Tinta        : #14201B   ← texto sobre crema
 ```
+
+Prohibido: verde neón `#2ED47A`, negro puro, gradientes, sombras de color.
 
 ### Tipografía
 
-Inter. Títulos `font-weight: 800`, cuerpo `400`. Labels en uppercase con `letter-spacing`.
+Inter, sola. Títulos `font-weight: 500` (nunca 700/800), cuerpo `400`,
+labels `600` en uppercase con `letter-spacing: 0.14em`. La jerarquía se hace
+con tamaño y aire, no con negrita.
 
-### Efecto de marca: Aurora Verde
+### Recursos de marca
 
-Gradiente radial difuso verde sobre fondo `#060D09`. Clases reutilizables:
-
-- `.aurora-bg` — glow diagonal (hero, resultados)
-- `.aurora-center` — glow centrado (quote)
-- `.aurora-subtle` — glow sutil (método)
-- `.grid-bg` — cuadrícula de fondo 56px (combinar con aurora)
-
-Ver código completo en `brand.md`.
+- `.grain` — textura de papel (ruido SVG, `mix-blend-mode: overlay`), solo sobre verde
+- Arco — círculos concéntricos de 1px en salvia (hero y quote)
+- Esquina cuarto de círculo — `border-radius` de 150px en un solo vértice de las celdas bento
+- Filetes de 1px en vez de cards con fondo
+- Sin sombras, sin animaciones de entrada, `border-radius` 2–3px en el resto
 
 ### Layouts por sección
 
-| Sección   | Fondo       | Clases CSS                    |
-|-----------|-------------|-------------------------------|
-| Hero      | `#060D09`   | `aurora-bg`                   |
-| Problema  | `#FFFFFF`   | —                             |
-| Método    | `#060D09`   | `aurora-bg aurora-subtle grid-bg` |
-| Resultados| `#060D09`   | `aurora-bg`                   |
-| Quote     | `#060D09`   | `aurora-bg aurora-center`     |
-| CTA       | `#F5F7F6`   | —                             |
-| Footer    | `#060D09`   | —                             |
+| Sección    | Fondo             | Composición                                     |
+|------------|-------------------|-------------------------------------------------|
+| Nav        | `--verde`         | Barra fija sólida, CTA crema                    |
+| Hero       | `--verde` + grain | Columna izquierda + arco + barra de 3 datos     |
+| Problema   | `--crema`         | Statement + 3 columnas con filetes              |
+| Método     | `--verde` + grain | 3 filas 01/02/03 con filetes                    |
+| Ciro       | `--crema-hueso`   | Lámina de escritorio + teléfono                 |
+| Resultados | `--crema`         | Bento de 4 celdas                               |
+| Quote      | `--verde` + grain | Frase centrada + arco                           |
+| CTA        | `--crema-hueso`   | Centrado, botón oscuro                          |
+| Footer     | `--verde`         | Logo · nav · copy                               |
 
 ---
 

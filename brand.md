@@ -1,125 +1,107 @@
 # INFYN — Sistema de diseño
 
+Dirección: **editorial / institucional**. Verde profundo y crema, bloques planos,
+tipografía neutra, mucho aire. Debe leer como una consultora seria para una PyME
+tradicional, no como un producto SaaS.
+
+---
+
 ## Colores
 
-| Token           | Hex       | Uso                              |
-|-----------------|-----------|----------------------------------|
-| Verde principal | `#0F7B53` | Botones, links, acentos en claro |
-| Verde oscuro    | `#0A3F2C` | Nav, footer, fondos              |
-| Verde acento    | `#2ED47A` | Highlights en dark, CTA primario |
-| Fondo oscuro    | `#060D09` | Base de todas las secciones dark |
-| Gris claro      | `#F5F7F6` | Fondo secciones claras, cards    |
-| Blanco          | `#FFFFFF` | Texto en dark, fondos            |
+| Token          | Hex       | Uso                                                |
+|----------------|-----------|----------------------------------------------------|
+| Verde          | `#12281F` | Bloques macizos (hero, método, quote, footer, nav) |
+| Verde medio    | `#1E4034` | Hover de botones oscuros, items activos            |
+| Verde hoja     | `#2C5C48` | Estados, íconos de línea, barras de datos          |
+| Salvia         | `#7DA68B` | Acento: labels, filetes, números, bloques bento    |
+| Salvia claro   | `#A8C4B2` | Variación de salvia                                |
+| Crema          | `#E7E0CE` | **Base del sitio** y texto sobre verde             |
+| Crema hueso    | `#F2EFE7` | Bloques claros de respiro (Ciro, CTA)              |
+| Tinta          | `#14201B` | Texto principal sobre crema                        |
+| Tinta media    | `#4E5D55` | Texto secundario                                   |
+| Tinta suave    | `#7A877F` | Labels, metadatos                                  |
+
+**Prohibido:** verde neón (`#2ED47A`), negro puro, gradientes de color, sombras
+difusas de colores, azules y naranjas de dashboard.
 
 ---
 
 ## Tipografía
 
-**Inter** (Google Fonts)
+**Inter, sola.** Sin serif, sin display, sin condensada.
 
-| Uso       | Weight |
-|-----------|--------|
-| Títulos   | 800    |
-| Subtítulos| 700    |
-| Cuerpo    | 400    |
-| Labels    | 600–700, letter-spacing: 2–3px, uppercase |
+| Uso                  | Weight | Detalle                                     |
+|----------------------|--------|---------------------------------------------|
+| Titular hero         | 500    | `clamp(40px,5.2vw,72px)`, tracking `-0.035em` |
+| Títulos de sección   | 500    | `clamp(30px,4vw,50px)`, tracking `-0.025em` |
+| Números grandes      | 500    | tracking `-0.045em`, `font-feature: tnum`   |
+| Cuerpo               | 400    | 15,5–18px, line-height 1.62–1.72            |
+| Labels / eyebrows    | 600    | 11px, uppercase, tracking `0.14–0.16em`     |
 
----
-
-## Efecto Aurora Verde
-
-El efecto de identidad visual principal. Luz ambiental verde difusa sobre fondo muy oscuro.
-
-**Implementación CSS:**
-```css
-.aurora-bg {
-  background: #060D09;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Glow diagonal — para hero y resultados */
-.aurora-bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 65% 75% at 72% 65%, rgba(26,138,74,0.60) 0%, rgba(10,63,44,0.30) 35%, transparent 70%),
-    radial-gradient(ellipse 40% 40% at 30% 20%,  rgba(10,63,44,0.20) 0%, transparent 60%);
-  filter: blur(50px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Variante centrada — para quote / CTA oscuro */
-.aurora-center::after {
-  background:
-    radial-gradient(ellipse 70% 60% at 50% 60%, rgba(26,138,74,0.55) 0%, rgba(10,63,44,0.25) 40%, transparent 70%);
-  filter: blur(70px);
-}
-
-/* Variante sutil — para método / pasos */
-.aurora-subtle::after {
-  background:
-    radial-gradient(ellipse 60% 50% at 80% 50%, rgba(15,123,83,0.25) 0%, transparent 65%),
-    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(10,63,44,0.15) 0%, transparent 60%);
-  filter: blur(60px);
-}
-```
-
-**Reglas:**
-- Siempre sobre fondo `#060D09`, nunca sobre verde medio
-- El glow no debe dominar el contenido, es ambiental
-- Todo el contenido de la sección lleva `position: relative; z-index: 1`
+Nunca weight 700/800: el peso extra es lo que hace que un sitio lea como startup.
+La jerarquía se construye con tamaño y aire, no con negrita.
 
 ---
 
-## Grid sutil de fondo
+## Recursos de marca
 
-Para secciones dark que necesitan estructura visual sin peso extra.
+### 1. Bloque macizo
+Secciones enteras en verde profundo plano, sin degradado ni glow. El contraste
+entre bloque verde y base crema **es** la identidad.
+
+### 2. Textura de papel (`.grain`)
+Ruido SVG al 30% en `mix-blend-mode: overlay` sobre los bloques verdes. Da el
+acabado impreso de las referencias. Solo sobre verde, nunca sobre crema.
 
 ```css
-.grid-bg::before {
+.grain::before {
   content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
-  background-size: 56px 56px;
+  position: absolute; inset: 0;
   pointer-events: none;
-  z-index: 0;
+  opacity: 0.30;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
 }
+.grain > * { position: relative; z-index: 1; }
 ```
 
+### 3. Arco
+Círculos concéntricos de 1px en salvia al 14–22% de opacidad, saliendo del
+borde del bloque (hero) o centrados detrás del texto (quote). Geometría plana,
+nunca relleno ni blur.
+
+### 4. Esquina cuarto de círculo
+`border-top-right-radius: 150px` / `border-bottom-left-radius: 150px` en las
+celdas del bento. Un solo vértice por celda, alternando. En mobile baja a 90px.
+
+### 5. Filetes
+Separadores de 1px (`rgba(20,32,27,0.14)` sobre crema, `rgba(231,224,206,0.16)`
+sobre verde) para columnas y pasos. Reemplazan a las cards con fondo.
+
 ---
 
-## Layouts
+## Geometría
 
-| Layout              | Fondo       | Uso                              |
-|---------------------|-------------|----------------------------------|
-| Dark + Aurora       | `#060D09`   | Hero, resultados, quote          |
-| Dark + Aurora sutil | `#060D09`   | Método / pasos                   |
-| Dark + Grid         | `#060D09`   | Método (combinar con aurora)     |
-| Blanco + Cards      | `#FFFFFF`   | Problema, claridad               |
-| Gris + Form         | `#F5F7F6`   | CTA, contacto                    |
+- `border-radius`: 2px en botones e inputs, 3px en cards y láminas, 0 en el resto.
+  La única curva grande es la esquina cuarto de círculo del bento.
+- Sin `box-shadow` en ningún lado. La profundidad se hace con color y borde.
+- Sin animaciones de entrada ni elementos flotantes.
 
 ---
 
-## Logo
+## Layouts por sección
 
-Símbolo infinito (∞) con flecha integrada hacia arriba-derecha.
-
-- Trazo exterior: `#2ED47A` (verde acento)
-- Trazo interior: `#0F7B53` (verde principal)
-- Flecha: `#2ED47A`
-
-**Versiones:**
-1. Color sobre oscuro (versión principal)
-2. Blanco sobre verde oscuro
-3. Monocromático (fallback)
-
-**Regla:** debe funcionar en 1 color.
+| Sección     | Fondo             | Composición                                   |
+|-------------|-------------------|-----------------------------------------------|
+| Nav         | `--verde`         | Barra fija sólida, CTA crema                  |
+| Hero        | `--verde` + grain | Una columna a la izquierda + arco + barra de 3 datos al pie |
+| Problema    | `--crema`         | Statement + 3 columnas separadas por filetes  |
+| Método      | `--verde` + grain | 3 filas `01/02/03` con filetes horizontales   |
+| Ciro        | `--crema-hueso`   | Lámina de escritorio + teléfono                |
+| Resultados  | `--crema`         | Bento de 4 celdas (verde / hueso / salvia / hoja) |
+| Quote       | `--verde` + grain | Frase centrada + arco                          |
+| CTA         | `--crema-hueso`   | Centrado, botón oscuro                         |
+| Footer      | `--verde`         | Logo · nav · copy                              |
 
 ---
 
@@ -135,4 +117,4 @@ Directo. Claro. Sin humo.
 ## Principio
 
 > **Estructura > estética**
-> Todo legible en 3 segundos. Menos es más.
+> Todo legible en 3 segundos. La seriedad se logra restando.
