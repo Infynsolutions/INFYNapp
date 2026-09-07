@@ -16,8 +16,10 @@
 - [x] `brand.md` y `CLAUDE.md` reescritos con la dirección nueva
 - [x] Verificado desktop 1440 y mobile 390, sin errores de consola, cero clases CSS huérfanas
 
+- [x] Deploy a producción — infynsolutions.com sirviendo el rediseño, verificado en vivo
+- [x] `.vercelignore` para que el código de cliente (`marunails/`, `inventario/`) no se publique en el sitio
+
 ## Pendiente
-- [ ] **Deploy a producción** — el sitio en vivo (infynsolutions.com) sigue con el diseño anterior
 - [ ] **`/diagnostico` y `/ejemplos` siguen con la estética vieja** (aurora + neón). Se nota el salto al navegar desde el CTA. 27KB y 65KB de HTML, es una sesión aparte
 - [ ] Fotos reales: la sección Ciro y el bento aguantan el patrón media columna foto / media bloque de color, pero no hay assets de INFYN en el repo
 
@@ -25,6 +27,8 @@
 Rediseño completo de `index.html`: 2511 → 1264 líneas, en tres pasadas con validación visual de Sofia entre cada una. Primera: cambio de dirección (paleta, tipografía, estructura). Segunda: serif itálica de acento, negritas de cuerpo y capa de gráficos, pedidos con referencias visuales. Tercera: el verde base al petróleo de la referencia.
 
 Lo que hizo que saliera rápido fue preguntar tres decisiones antes de escribir una línea (base cromática, qué hacer con los elementos tech, sistema tipográfico) en vez de proponer una versión y rehacerla. Las tres pasadas siguientes fueron ajustes sobre esa base, no replanteos.
+
+Al deployar apareció algo que no era del rediseño: el repo aloja proyectos de cliente (`marunails/`, `inventario/`) y el deploy sube desde la carpeta, así que ese código habría quedado accesible en infynsolutions.com. Se agregó `.vercelignore`. Como Vercel deja de leer `.gitignore` cuando ese archivo existe, los `*.png` ahora sí se suben — el logo sigue llegando a producción.
 
 Dos bugs que solo aparecieron mirando: la negrita del hero en tinta oscura sobre verde (ilegible) y el SVG de fondo flotando en medio del texto porque `.celda > *` le pisó el `position`. Ninguno de los dos lo habría detectado leyendo el CSS. Lecciones en `tasks/lessons.md`.
 

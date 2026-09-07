@@ -1,0 +1,21 @@
+# Qué NO se publica en infynsolutions.com.
+# Ojo: al existir este archivo, Vercel deja de usar .gitignore para decidir
+# qué sube — por eso los .png (el logo) siguen llegando a producción.
+
+# Proyectos de cliente que viven en este repo pero no son el sitio
+marunails/
+inventario/
+
+# Backend, herramientas y notas internas
+backend/
+frontend/
+scripts/
+templates/
+tasks/
+docs/
+memory/
+.claude/
+.gstack/
+
+# Documentos internos
+*.docx

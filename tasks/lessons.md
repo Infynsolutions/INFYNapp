@@ -127,3 +127,7 @@ Lista de aprendizajes acumulados sesión a sesión. Revisar al inicio de cada se
 - **Por qué:** `.gitignore` excluye `*.png`, así que `Logo Infyn.png` no está en el repo. En un worktree limpio el logo da 404 y parece un bug del rediseño. En producción funciona porque Vercel deploya desde la carpeta local.
 - **Cuándo aplica:** Al trabajar en un worktree o clon nuevo, copiar los assets ignorados antes de verificar visualmente. Si alguna vez se deploya desde git, el logo degrada al wordmark de texto.
 
+### Regla: el repo INFYN aloja proyectos de cliente y el sitio deploya desde la carpeta
+- **Por qué:** `marunails/` e `inventario/` (proyectos de cliente) viven en el mismo repo que la web. `vercel --prod` sube el contenido del directorio, así que ese código habría quedado servido en infynsolutions.com. Se resolvió con `.vercelignore`.
+- **Cuándo aplica:** Antes de cualquier deploy, revisar qué carpetas nuevas aparecieron en la raíz. Y tener presente que al existir `.vercelignore`, Vercel deja de usar `.gitignore` para decidir qué sube: por eso los `*.png` (el logo) siguen llegando a producción.
+
