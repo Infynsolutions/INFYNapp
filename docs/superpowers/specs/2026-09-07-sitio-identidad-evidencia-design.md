@@ -25,8 +25,9 @@ las dos desembocan en la misma secuencia.
 
 La auditoría es **el paso inicial, no el final del negocio**: el sistema a medida sigue
 siendo el destino y la suscripción sigue siendo el modelo. Lo que cambia es qué se pone
-adelante y qué se regala — una **radiografía con evidencia** en vez de una conversación
-de descubrimiento sin nada medido.
+adelante: una **radiografía con evidencia** en vez de una conversación de descubrimiento
+sin nada medido. No se regala nada — la radiografía se cobra como todo lo demás, y por
+eso tiene que llegar con un hallazgo adentro.
 
 La formulación que sostiene el posicionamiento sin traicionar el *"no somos consultora"*:
 
@@ -41,7 +42,7 @@ mantiene como cita de **su** método; en las notas de INFYN se renombra.
 
 | Escalón | Nombre nuevo | Antes | Duración |
 |---|---|---|---|
-| 0 | **Radiografía** | (igual) | sin costo · 3 a 5 días · dos archivos |
+| 0 | **Radiografía** | (igual) | 3 a 5 días · dos archivos |
 | 0+ | **Primera pasada** | Auditoría Express | medio día |
 | 1 | **Estado de Evidencia** | Audit File | 2 semanas |
 | 2 | **Mapa de criterio** | (igual) | 2 a 3 semanas |
@@ -66,7 +67,7 @@ el CTA deja de apuntarles) · fotos reales (no hay assets en el repo) · backend
 | # | Bloque | Contenido |
 |---|---|---|
 | 1 | Nav | Método · Servicios · Casos · Contacto |
-| 2 | Hero | *Primero medimos con qué decidís.* / **Después construimos lo que falta.** Visual: lámina de los cuatro ejes con puntaje → el sistema. Barra al pie del fold: dos archivos · 3 a 5 días · sin costo |
+| 2 | Hero | *Primero medimos con qué decidís.* / **Después construimos lo que falta.** Visual: lámina de los cuatro ejes con puntaje → el sistema. Barra al pie del fold: dos archivos · 3 a 5 días · un hallazgo con nombre |
 | 3 | Las dos puertas | A — *"Ya tenés un sistema y no sabés si podés confiar en lo que te dice."* B — *"Todavía no tenés sistema: la operación vive en Excel y en la cabeza de tres personas."* Cierre: **las dos puertas dan al mismo pasillo** |
 | 4 | El problema | *No es que no tengas datos.* / **Es que nadie te dijo nunca cuánto valen los que tenés.** Ancla: 87,2 % contra 95,7 % sobre el mismo dato |
 | 5 | Los cuatro ejes | Aprovechamiento · Cobertura · Frescura · Veracidad, cada uno con su pregunta en lenguaje de dueño (ver §6) + gráfico SVG plano |
@@ -75,7 +76,7 @@ el CTA deja de apuntarles) · fotos reales (no hay assets en el repo) · backend
 | 8 | El final del camino | El sistema a medida + Ciro. *Ciro responde sobre la base que ya medimos* |
 | 9 | Lo que no prometemos | Las cuatro reglas de §8. Es el bloque que compra confianza |
 | 10 | Quote | *El problema no fue la decisión. Fue enterarte tarde.* |
-| 11 | CTA | La pregunta gate + botón a la Radiografía |
+| 11 | CTA | La pregunta gate + botón a la Radiografía. Sin precio: *el alcance se arma sobre tu negocio* |
 | 12 | Footer | (se conserva) |
 
 ## 6. Los cuatro ejes, en lenguaje de dueño
@@ -130,19 +131,23 @@ material.*
 
 ## 10. Precio y qué se ofrece — decisiones tomadas
 
-Tres llamadas hechas con su razón; se revierten si Sofia dice lo contrario.
-
-1. **Solo se ofrecen con botón la Radiografía y la Primera pasada.** Las dos ya están
-   probadas (cinco corridas informales; hora y media dio nueve hallazgos). El Estado de
-   Evidencia y el Mapa de criterio se muestran **como el camino**, sin compra directa,
-   hasta que corra el Ejemplo 0 sobre Bestani. La nota del servicio lo pide textual:
-   *"vender un servicio que nunca se corrió entero es cómo se rompe la relación con el
-   primer cliente que lo compre."*
-2. **Precio:** en la home solo duración y "sin costo"; las bandas en USD viven en
-   `/auditoria`. Acá el precio se justifica con evidencia del propio cliente, no con
-   arquitectura — por eso se puede mostrar.
-3. **La Radiografía va sin costo**, con gate de entrada escrito (la decisión tardía
-   cuantificada) y techo de 4 horas. Era decisión pendiente en la nota del servicio.
+1. **Todo se cobra. No hay escalón gratis.** Decisión de Sofia del 2026-09-07: cierra la
+   pendiente que la nota del servicio dejaba abierta (*"si la Radiografía va gratis o
+   arranca paga"*) a favor de paga. La radiografía se cobra igual que el resto y por eso
+   tiene que llegar con un hallazgo adentro, no con un puntaje solo.
+2. **No se publica ningún precio, en ninguna página.** Ni bandas, ni "desde", ni "sin
+   costo". El sitio muestra **duración y entregable**; el número sale de la conversación,
+   porque el plan se arma sobre cada negocio. La página lo dice de frente —
+   *el alcance y el precio se arman sobre tu caso* — para que se lea como criterio y no
+   como evasiva.
+3. **La entrada es la Radiografía o la Primera pasada.** Son las dos que ya están probadas
+   (cinco corridas informales; una hora y media dio nueve hallazgos). El Estado de
+   Evidencia y el Mapa de criterio se muestran **como el camino**, sin pedir compra, hasta
+   que corra el Ejemplo 0 sobre Bestani. La nota del servicio lo pide textual: *"vender un
+   servicio que nunca se corrió entero es cómo se rompe la relación con el primer cliente
+   que lo compre."*
+4. **El gate de entrada se mantiene** — la decisión tardía cuantificada. Ya no protege
+   horas regaladas; ahora califica que haya negocio antes de cotizar.
 
 ## 11. Restricciones técnicas
 
@@ -174,3 +179,4 @@ de Bestani y las lecciones técnicas que lo citan). **`Referencias/` no se toca.
 | Usar material de SdB como propio | Regla dura de §7; nombre propio en §3 |
 | El sitio promete auditoría contable que INFYN no puede firmar | "Lo que no prometemos" (§8) y el eje 04 acotado a lo que se verifica sin contador |
 | `/diagnostico` y `/ejemplos` quedan viejos y se nota el salto | El CTA deja de apuntarles; quedan en backlog explícito |
+| Un sitio sin precios se lee como "no lo quieren decir" | Se dice de frente por qué: el plan se arma sobre cada negocio. Y la duración de cada escalón sí está publicada, que es lo que ordena la expectativa |
