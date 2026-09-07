@@ -1,3 +1,35 @@
+# Sesión 2026-09-07 — Rediseño editorial del sitio
+
+## Hecho
+- [x] Cambiar la dirección visual de dark-first/SaaS a editorial/institucional (crema base + bloques verde macizo)
+- [x] Nueva paleta: verde petróleo `#17403A`, medio `#21544C`, hoja `#2E6B5D`, salvia `#86B0A2`, crema `#E7E0CE`, hueso `#F2EFE7`
+- [x] Eliminar aurora glow, grid de fondo, sombras difusas y verde neón `#2ED47A`
+- [x] Tipografía: Inter 400–600 (saca Bricolage Grotesque) + Instrument Serif itálica como acento en la frase de cierre de cada bloque
+- [x] Negritas de cuerpo en weight 600, con color por variable `--fuerte` según el fondo del bloque
+- [x] Hero: saca el canvas animado y los badges flotantes; queda columna editorial + arco medido + barra de 3 datos
+- [x] Ciro: mockup restilado en crema/verde mate, sin emojis, donut reemplazado por el panel "Lectura de Ciro"
+- [x] Resultados: bento de 4 celdas con esquina cuarto de círculo
+- [x] Capa de gráficos SVG: arco medido (hero), arco de ticks (quote), tres arcos concéntricos (método), sparkline / barras / línea de tiempo / onda (bento)
+- [x] Logo: de `<img>` a `mask-image`, recortado al símbolo y en color de paleta
+- [x] Contraste: `tinta-suave` de `#7A877F` a `#586764` (2,8:1 → 4,5:1). Todos los pares en uso pasan WCAG AA
+- [x] Mobile: la lámina de escritorio se oculta bajo 860px, queda el teléfono
+- [x] `brand.md` y `CLAUDE.md` reescritos con la dirección nueva
+- [x] Verificado desktop 1440 y mobile 390, sin errores de consola, cero clases CSS huérfanas
+
+## Pendiente
+- [ ] **Deploy a producción** — el sitio en vivo (infynsolutions.com) sigue con el diseño anterior
+- [ ] **`/diagnostico` y `/ejemplos` siguen con la estética vieja** (aurora + neón). Se nota el salto al navegar desde el CTA. 27KB y 65KB de HTML, es una sesión aparte
+- [ ] Fotos reales: la sección Ciro y el bento aguantan el patrón media columna foto / media bloque de color, pero no hay assets de INFYN en el repo
+
+## Review
+Rediseño completo de `index.html`: 2511 → 1264 líneas, en tres pasadas con validación visual de Sofia entre cada una. Primera: cambio de dirección (paleta, tipografía, estructura). Segunda: serif itálica de acento, negritas de cuerpo y capa de gráficos, pedidos con referencias visuales. Tercera: el verde base al petróleo de la referencia.
+
+Lo que hizo que saliera rápido fue preguntar tres decisiones antes de escribir una línea (base cromática, qué hacer con los elementos tech, sistema tipográfico) en vez de proponer una versión y rehacerla. Las tres pasadas siguientes fueron ajustes sobre esa base, no replanteos.
+
+Dos bugs que solo aparecieron mirando: la negrita del hero en tinta oscura sobre verde (ilegible) y el SVG de fondo flotando en medio del texto porque `.celda > *` le pisó el `position`. Ninguno de los dos lo habría detectado leyendo el CSS. Lecciones en `tasks/lessons.md`.
+
+---
+
 # INFYN — Tareas en curso y review de sesiones
 
 ## Sesión 2026-05-11 — Rediseño completo (cerrada)

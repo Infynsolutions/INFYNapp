@@ -34,6 +34,43 @@ Lista de aprendizajes acumulados sesión a sesión. Revisar al inicio de cada se
 - **Por qué:** El verde acento (`#2ED47A`) aparecía en ~8 lugares (eyebrows, .acento, botones, paso-num, paso-tiempo, hero-tag, live-dots, cards). Cuando todo es verde, nada es verde. Reducirlo a 3-4 lugares clave (botón primario, .acento italic, aurora background, live signals) hace que cada aparición se sienta intencional.
 - **Cuándo aplica:** Al sumar elementos nuevos, preguntarse: "¿este lugar NECESITA verde acento o sirve con neutro?". Default a neutro, verde solo cuando es decisión consciente.
 
+
+### Regla: la estética del sitio es editorial/institucional, no tech (2026-09-07)
+- **Por qué:** Sofia pidió que la web aplicara a PyMEs tradicionales. La estética anterior (dark-first `#060D09`, neón `#2ED47A`, aurora glow, chart animado, emojis, mockup de app) leía como producto SaaS. La dirección nueva es crema `#E7E0CE` de base + bloques macizos verde petróleo `#17403A` + acento salvia, tipografía neutra 400–600, filetes en vez de cards, cero sombras.
+- **Cuándo aplica:** Todo material visual de INFYN — web, landings, propuestas, PDFs. Antes de agregar un efecto, preguntarse si un estudio contable lo pondría en su pared.
+
+### Regla: el verde base es petróleo, no oliva — y la escala se recalibra entera
+- **Por qué:** `#12281F` (oliva oscuro) leía "eco"; `#17403A` tiene azul adentro y lee institucional. Al mover el base hay que recalibrar medio/hoja/salvia sobre el mismo matiz o la jerarquía se aplana (el verde medio queda igual al base).
+- **Cuándo aplica:** Cualquier cambio de color de marca. Y verificar contraste después: al hacerlo se descubrió que `tinta-suave` a 11px daba 2,8:1 y fallaba WCAG AA desde antes.
+
+### Regla: los SVG inline con colores hardcodeados no siguen a los tokens
+- **Por qué:** El cambio de paleta dejó 419 `rgba()` con el verde viejo dentro de los gráficos SVG. Los tokens CSS cambiaron y los gráficos no.
+- **Cuándo aplica:** Al generar SVG inline, o se usa `currentColor`/`var(--token)`, o se acepta que el cambio de paleta es un reemplazo global sobre el archivo.
+
+### Regla: el color de `strong` sale de una variable por bloque, no de una lista de selectores
+- **Por qué:** `strong { color: var(--tinta) }` dejó la negrita del hero en tinta oscura sobre fondo verde, ilegible. Listar selectores (`.sobre-verde strong, .paso-texto strong…`) se rompe con cada bloque nuevo. La solución: `strong { color: var(--fuerte, var(--tinta)) }` y cada bloque define `--fuerte` según su fondo.
+- **Cuándo aplica:** Cualquier estilo que dependa del fondo del contenedor (negritas, links, bordes) en un sitio que alterna claro y oscuro.
+
+### Regla: los gráficos no van detrás de párrafos
+- **Por qué:** La onda de líneas arrancó como fondo de la celda `+30%` y competía con la lectura del texto. Movida a la celda que tenía aire, funciona como textura de marca.
+- **Cuándo aplica:** Todo gráfico decorativo. Va en el espacio vacío de la composición, no debajo de contenido que hay que leer.
+
+### Regla: serif de acento + grotesk necesita ajuste de tamaño
+- **Por qué:** Instrument Serif itálica tiene menor altura x que Inter: al mismo `font-size` parece hundida dentro del titular. Va a `1.06em`.
+- **Cuándo aplica:** Cualquier mezcla de dos familias en una misma línea de texto.
+
+### Regla: los titulares llevan `<br>` explícitos
+- **Por qué:** El quiebre automático dejó palabras huérfanas ("crecer." y "24/7." solas en una línea) y arruinó la composición en tres secciones distintas.
+- **Cuándo aplica:** Todo titular de más de una línea. El ancho de columna sugiere, el `<br>` decide.
+
+### Regla: un PNG monocromo con alpha se recolorea con `mask-image`, no se re-exporta
+- **Por qué:** El logo es blanco puro y trae su propio wordmark debajo del símbolo, que duplicaba el "INFYN" en Inter. Con `mask-image` + `background: var(--crema)` toma el color exacto de la paleta, y con `mask-size`/`mask-position` se recorta solo el símbolo. Sin tocar el asset.
+- **Cuándo aplica:** Logos e íconos monocromos que tienen que adaptarse a varios fondos.
+
+### Regla: `.contenedor > *` pisa el `position` de los hijos decorativos
+- **Por qué:** `.celda > * { position: relative; z-index: 1 }` (puesto para que el texto quede sobre el grano) anuló el `position: absolute` del SVG de fondo, que apareció flotando en el medio del texto.
+- **Cuándo aplica:** Al usar el patrón "hijos por encima del fondo", acotar el selector al tipo de hijo real (`> div`) o excluir el decorativo.
+
 ---
 
 ## Workflow
@@ -81,3 +118,12 @@ Lista de aprendizajes acumulados sesión a sesión. Revisar al inicio de cada se
 ### Regla: Distinguir Ciro (operativo, tier Estándar) del Copensador (estratégico, tier Custom)
 - **Por qué:** Comparten stack (Claude API + Supabase) pero son productos distintos. Ciro = copiloto operativo del día a día para el emprendedor chico, sobre Argos multi-tenant. Copensador = análisis estratégico profundo (cruce económico/financiero/patrimonial sobre dims conformadas) para la dirección de un negocio Custom, en su repo y base propios. No mezclar: el Copensador solo es viable cuando INFYN diseña/controla el esquema desde el modelado.
 - **Cuándo aplica:** Cualquier decisión sobre dónde vive una capa de IA en el ecosistema INFYN. Preguntar primero: ¿es operativo o estratégico? ¿tier Estándar (Argos) o Custom (repo del cliente)?
+
+### Regla: `python3 -m http.server` cachea — verificar con `?v=timestamp`
+- **Por qué:** Tres screenshots seguidos mostraron el diseño viejo después de editar el archivo, y llevó a "arreglar" cosas que ya estaban bien.
+- **Cuándo aplica:** Toda verificación visual sobre servidor local. Navegar a `index.html?v=$(date +%s)` en vez de recargar.
+
+### Regla: los `*.png` están gitignored — el logo llega a prod por el deploy, no por git
+- **Por qué:** `.gitignore` excluye `*.png`, así que `Logo Infyn.png` no está en el repo. En un worktree limpio el logo da 404 y parece un bug del rediseño. En producción funciona porque Vercel deploya desde la carpeta local.
+- **Cuándo aplica:** Al trabajar en un worktree o clon nuevo, copiar los assets ignorados antes de verificar visualmente. Si alguna vez se deploya desde git, el logo degrada al wordmark de texto.
+
