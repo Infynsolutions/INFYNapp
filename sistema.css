@@ -1013,6 +1013,13 @@
     .footer-nav { gap: 20px; }
   }
 
+  /* ═══ AUDITORIA.HTML — layout helpers ═══ */
+  .hero-inner-solo { padding-bottom: 70px; } /* mismo valor que .hero-grid en index.html: hero sin actions/datos necesita su propio respiro inferior */
+  #etapas .titulo-seccion { margin-bottom: 76px; } /* iguala el margen de .metodo-header en index.html */
+  .wrap-angosto { max-width: 760px; }
+  .escalera .bajada { margin-top: 24px; max-width: none; } /* scoped: el único .bajada dentro de .escalera en esta página es el conflicto declarado */
+  .entregables-destacado { margin: 12px 0; min-height: auto; justify-content: flex-start; gap: 20px; }
+
   /* ═══ ENTREGABLES (auditoria.html) ═══ */
   .entregables-lista {
     list-style: none;
