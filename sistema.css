@@ -410,6 +410,7 @@
     grid-template-columns: repeat(3, 1fr);
     border-top: 1px solid var(--linea);
   }
+  .columnas-4 { grid-template-columns: repeat(4, 1fr); }
   .columna {
     padding: 40px 40px 10px 0;
     border-right: 1px solid var(--linea);
@@ -883,6 +884,10 @@
   }
   .celda-link:hover { opacity: 1; }
 
+  /* ═══ LÍMITES ═══ */
+  .limites { background: var(--crema); padding: 120px 40px; }
+  .limites .titulo-seccion { margin-bottom: 60px; }
+
   /* ═══ QUOTE ═══ */
   .quote {
     background: var(--verde);
@@ -971,7 +976,7 @@
     .hero { padding: 150px 24px 0; }
     .hero-actions { margin-bottom: 70px; }
     .hero-arco { width: 380px; height: 380px; right: -150px; }
-    .problema, .metodo, .producto, .resultados { padding: 84px 24px; }
+    .problema, .metodo, .producto, .resultados, .limites { padding: 84px 24px; }
     .quote { padding: 110px 24px; }
     .cta { padding: 96px 24px; }
     footer { padding: 40px 24px; }
