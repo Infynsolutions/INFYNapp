@@ -187,6 +187,55 @@ carpeta, no por git. Si el archivo falta, el sitio degrada al wordmark de texto.
 
 ---
 
+## Nombres de la escalera
+
+| Escalón | Nombre nuevo | Antes | Duración |
+|---|---|---|---|
+| 0 | **Radiografía** | (igual) | 3 a 5 días · dos archivos |
+| 0+ | **Primera pasada** | Auditoría Express | medio día |
+| 1 | **Estado de Evidencia** | Audit File | 2 semanas |
+| 2 | **Mapa de criterio** | (igual) | 2 a 3 semanas |
+| 3 | **Copensador** | (igual) | fee + suscripción |
+| 4 | **Estado mensual** | Auditoría recurrente | dentro de la suscripción |
+
+"Audit File" es el nombre del método de Antonio Sánchez De Boeck y no se usa
+para nada propio de INFYN — nuestro entregable equivalente se llama "Estado de
+Evidencia". *Estado de Evidencia* calca la forma de "estado de resultados":
+una foto formal con fecha de corte, que se re-emite por período (por eso el
+escalón 4 se llama "Estado mensual" — es el mismo documento, otra vez, no un
+producto nuevo).
+
+Nombres descartados por colisión con vocabulario ya en uso en el proceso
+comercial de INFYN: *Expediente* (ya es el estado compartido del pipeline
+`/cliente-*`) y *Acta* (ya es el Acta de Entrega).
+
+---
+
+## Regla de cifras
+
+En el sitio (`index.html`, `auditoria.html` y cualquier página futura) solo
+pueden aparecer cifras de hallazgos de **clientes reales de INFYN**, siempre
+**anonimizados**: sin nombre de cliente, solo descripción genérica del rubro
+("concesionaria de utilitarios", "cafetería de especialidad", "cadena de
+neumáticos, 4 sucursales").
+
+Ninguna cifra del material de Antonio Sánchez De Boeck (su método, sus casos,
+sus números de ejemplo) puede publicarse como si fuera un caso de INFYN — esas
+cifras son suyas, no nuestras.
+
+**Nunca usar como propias** (son de SdB):
+- 55,8% (venta anónima)
+- $72,9M (contrafáctico de shopping)
+- 42,8% / 25,7% (márgenes shopping / outlet)
+
+**Aprobadas para el sitio** (verificadas como propias de INFYN):
+- $569.379.492 mal imputados
+- IVA al 21% en vez de 10,5%
+- USD 60.000/año de fuga estimada
+- 4 sucursales con error de artículos/caja
+
+---
+
 ## Tono de comunicación
 
 Directo. Claro. Sin humo.
