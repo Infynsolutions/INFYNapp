@@ -480,6 +480,15 @@
     text-transform: uppercase;
     color: var(--salvia);
   }
+  /* Modificador para .paso-tiempo cuando el contenido es una oración larga
+     (ejemplo real) en vez de una insignia corta (duración) — sin tracking
+     ancho ni mayúsculas, para que no "grite". No toca el comportamiento
+     por defecto de .paso-tiempo. */
+  .paso-tiempo-ejemplo {
+    text-transform: none;
+    letter-spacing: 0.01em;
+    font-weight: 500;
+  }
 
   /* ═══ CIRO — el diferencial ═══ */
   .producto { background: var(--crema-hueso); padding: 120px 40px; }
