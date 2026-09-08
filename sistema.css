@@ -328,6 +328,27 @@
     line-height: 1.5;
   }
 
+  /* ─── Lámina de score: el entregable de la radiografía, en el hero ─── */
+  .score-lamina {
+    background: var(--crema); color: var(--tinta);
+    border-radius: 3px; padding: 26px 28px 22px;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .score-ejes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .score-eje { display: flex; flex-direction: column; align-items: center; gap: 9px; }
+  .score-eje svg { width: 62px; height: 62px; color: var(--verde-hoja); }
+  .score-eje-num { font-size: 19px; font-weight: 500; letter-spacing: -0.03em; }
+  .score-eje-label {
+    font-size: 9.5px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.13em; color: var(--tinta-suave); text-align: center;
+  }
+  .score-hallazgo {
+    border-top: 1px solid var(--linea); padding-top: 16px;
+    font-size: 13px; line-height: 1.55; color: var(--tinta-media);
+  }
+  .score-hallazgo strong { font-weight: 600; color: var(--tinta); }
+  @media (max-width: 860px) { .score-ejes { grid-template-columns: repeat(2, 1fr); } }
+
   /* ═══ PROBLEMA ═══ */
   .problema { background: var(--crema); padding: 120px 40px; }
   .problema-statement {
