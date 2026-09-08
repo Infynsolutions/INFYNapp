@@ -315,6 +315,7 @@
   .hero-datos li:last-child { border-right: 0; }
   .hero-datos li:not(:first-child) { padding-left: 34px; }
   .dato-num {
+    display: block;
     font-size: 30px;
     font-weight: 500;
     color: var(--crema);
@@ -323,6 +324,7 @@
     margin-bottom: 10px;
   }
   .dato-label {
+    display: block;
     font-size: 13px;
     color: rgba(231,224,206,0.50);
     line-height: 1.5;
@@ -359,6 +361,7 @@
     background: var(--crema); color: var(--tinta);
     border-radius: 3px; padding: 26px 28px 22px;
     display: flex; flex-direction: column; gap: 20px;
+    --fuerte: var(--tinta);
   }
   .score-ejes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
   .score-eje { display: flex; flex-direction: column; align-items: center; gap: 9px; }
@@ -372,7 +375,8 @@
     border-top: 1px solid var(--linea); padding-top: 16px;
     font-size: 13px; line-height: 1.55; color: var(--tinta-media);
   }
-  .score-hallazgo strong { font-weight: 600; color: var(--tinta); }
+  /* color resuelve solo vía --fuerte (set arriba en .score-lamina) + la
+     regla global "strong { color: var(--fuerte, var(--tinta)) }" */
   @media (max-width: 860px) { .score-ejes { grid-template-columns: repeat(2, 1fr); } }
 
   /* ═══ PROBLEMA ═══ */
