@@ -1,3 +1,29 @@
+# Sesión 2026-09-07/08 — Identidad nueva: la evidencia primero (contenido)
+
+## Hecho
+- [x] Brainstorming + spec (`docs/superpowers/specs/2026-09-07-sitio-identidad-evidencia-design.md`) + plan de 13 tareas (`docs/superpowers/plans/2026-09-07-sitio-identidad-evidencia.md`)
+- [x] Ejecución completa vía `subagent-driven-development` en worktree aislado, cada tarea con review de spec y de calidad de código
+- [x] `sistema.css` extraído de `index.html`, compartido con la página nueva
+- [x] Home rehecha entera: hero con lámina de score de 4 ejes, "las dos puertas", problema reescrito, los 4 ejes en lenguaje de dueño, escalera de 6 escalones sin precios, bento de 4 hallazgos propios anonimizados, Ciro reencuadrado como destino, "lo que no prometemos", quote, CTA con la pregunta gate
+- [x] `/auditoria` nueva: 4 ejes en profundidad, 6 etapas con gate, 6 entregables del Estado de Evidencia, conflicto declarado, FAQ nativo (`<details>`, sin JS)
+- [x] "Audit File" (de Antonio Sánchez De Boeck) renombrado a "Estado de Evidencia" (propio de INFYN) en el sitio y en 8 notas del vault, con criterio caso por caso
+- [x] Decisión de Sofia a mitad de sesión: todo se cobra, ningún precio se publica en el sitio
+- [x] Pasada de verificación cruzada: cifras propias, contraste WCAG, mobile, links — encontró y corrigió un footer sin `flex-wrap`
+- [x] Merge a `main`, push, deploy a producción (`infynsolutions.com`), verificado en vivo con browser real (desktop + mobile, sin errores)
+- [x] Worktree y rama de feature borrados, auditados contra `origin/main` antes de borrar
+
+## Pendiente
+- [ ] `/diagnostico` y `/ejemplos` siguen con la estética y el discurso viejos — backlog explícito, sesión aparte
+- [ ] `.paso-texto` en la sección de los cuatro ejes da 4,04:1 de contraste (CSS previa a esta sesión, ahora muestra contenido nuevo) — decisión de Sofia si se corrige
+- [ ] Superposición de nombres en el footer ("Cómo trabajamos" vs "Método") — pulido menor
+
+## Review
+13 tareas, todas con review de spec (verificación línea por línea contra el plan, sin confiar en el reporte del implementador) y de calidad de código, antes de avanzar a la siguiente. El review encontró bugs reales que el propio implementador no vio: un título envolviendo en 4 líneas por `max-width: Nch` que no se arregla bajando el `font-size`, spans sin `display:block`, un borde de cierre roto por `:last-child`, 6 inline styles nuevos en `/auditoria` que reabrían un problema ya corregido en la home, espacio muerto en la card del entregable destacado, y el footer sin wrap. Ninguno se habría visto leyendo el CSS — todos salieron de medir con un browser real (Playwright/`browse`), no de curl ni de lectura de código.
+
+Al deployar, `vercel whoami` daba `contacto-9286` en vez de `sofiafbravo` — la lección vieja de este repo decía que eso era un error. En realidad es la cuenta correcta desde la migración del 2026-07-31 (team `infyn-s-projects`); se corrigió la lección para no volver a des-linkear el proyecto correcto en una sesión futura.
+
+---
+
 # Sesión 2026-09-07 — Rediseño editorial del sitio
 
 ## Hecho

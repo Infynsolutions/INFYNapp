@@ -71,6 +71,26 @@ Lista de aprendizajes acumulados sesión a sesión. Revisar al inicio de cada se
 - **Por qué:** `.celda > * { position: relative; z-index: 1 }` (puesto para que el texto quede sobre el grano) anuló el `position: absolute` del SVG de fondo, que apareció flotando en el medio del texto.
 - **Cuándo aplica:** Al usar el patrón "hijos por encima del fondo", acotar el selector al tipo de hijo real (`> div`) o excluir el decorativo.
 
+### Regla: reemplazar un elemento `position: absolute` por uno de flujo normal cambia el alto real de la sección (2026-09-07)
+- **Por qué:** `.hero-arco` (el arco decorativo viejo) era `position: absolute` y no sumaba altura al documento. Al reemplazarlo por `.score-lamina` (un bloque de flujo normal) apilado debajo del resto del hero, la sección ganó altura real y rompió el fold — el bug no se veía leyendo el CSS, solo midiendo con `getBoundingClientRect()` en un browser real. Costó dos rondas de fix.
+- **Cuándo aplica:** Cualquier vez que se reemplace un elemento decorativo `position: absolute`/`fixed` por un componente de contenido real. Verificar con medición real (Playwright/browse, no curl ni lectura de CSS) el alto de la sección antes y después.
+
+### Regla: `max-width: Nch` no se arregla bajando el `font-size` — `ch` escala con la fuente
+- **Por qué:** Un titular con `max-width: 17ch` seguía envolviendo mal después de reducir el `font-size`, porque `ch` es relativo a la fuente: al achicar el texto, el ancho de la caja se achica en la misma proporción y el problema de wrap no cambia. Hubo que agregar `max-width: none` además de reducir el tamaño.
+- **Cuándo aplica:** Al depurar un problema de wrap de texto en un contenedor angosto que usa `ch` como unidad de `max-width`. Revisar si el `max-width` mismo necesita cambiar, no solo el tamaño de fuente.
+
+### Regla: un valor de contraste "cerca" del umbral WCAG se mide, no se estima a ojo
+- **Por qué:** Un par nuevo (`--tinta-suave` sobre `--crema`) dio 4,507:1 — pasa el mínimo de 4,5:1 por un margen de 0,007. Sin calcular la fórmula real (luminancia relativa) sobre los valores hex exactos, ese par podría haberse dado por bueno o por malo a ojo. Ya había pasado antes en este mismo proyecto (`tinta-suave` a 11px daba 2,8:1 sin que nadie lo hubiera notado).
+- **Cuándo aplica:** Cada vez que se introduce o se toca un par texto/fondo con un tono apagado (`tinta-suave`, `tinta-media` o equivalentes). Calcular la razón real, no compararlo "de vista" contra otro par que sí pasa.
+
+### Regla: renombrar un término usado en dos contextos (propio y de referencia) es juicio por ocurrencia, no buscar-y-reemplazar
+- **Por qué:** "Audit File" nombraba tanto el método de Antonio Sánchez De Boeck (una referencia externa) como el entregable propio de INFYN inspirado en él. Un reemplazo global habría reescrito citas de SdB como si fueran nuestras. Hubo que leer cada ocurrencia en contexto en 12 archivos para decidir si describía lo propio (se renombra) o lo de él (se deja, o se aclara la atribución).
+- **Cuándo aplica:** Al renombrar cualquier término que se originó citando a un tercero y después se adoptó como propio. Nunca `sed -i` global sobre notas de referencia/metodología mixtas.
+
+### Regla: al agregar una segunda página, extraer el CSS compartido antes de escribirla
+- **Por qué:** `/diagnostico` y `/ejemplos` quedaron con la estética vieja porque cada una copió el CSS inline de `index.html` en su momento y nadie las volvió a tocar cuando `index.html` cambió. Al agregar `/auditoria`, se extrajo el `<style>` de `index.html` a un `sistema.css` compartido con `<link>` antes de escribir la página nueva — así un cambio de paleta futuro toca un solo archivo.
+- **Cuándo aplica:** Cualquier proyecto HTML/CSS puro (sin build) que vaya a tener más de una página. El costo de extraer el CSS a un archivo compartido es mínimo comparado con el de tener páginas que divergen en silencio.
+
 ---
 
 ## Workflow
@@ -83,9 +103,9 @@ Lista de aprendizajes acumulados sesión a sesión. Revisar al inicio de cada se
 - **Por qué:** Sofia valida en su browser real (Chrome, retina, su resolución). Los screenshots locales son aproximaciones — el feedback útil viene de ver en producción.
 - **Cuándo aplica:** Siempre después de cambios al sitio. `vercel --prod` y avisar la URL.
 
-### Regla: Verificar `vercel whoami` antes de deployar
-- **Por qué:** El CLI puede quedar logueado con una cuenta incorrecta (contacto-9286 en vez de sofiafbravo). El proyecto `infyn-web` vive en `sofiafbravos-projects`. Si el `orgId` en `.vercel/project.json` no matchea la cuenta activa, el deploy falla o va al proyecto equivocado.
-- **Cuándo aplica:** Al inicio de cualquier sesión que incluya deploy. Si `vercel whoami` no dice `sofiafbravo`, hacer `vercel logout` + `vercel login` + `vercel link --project infyn-web --scope sofiafbravos-projects --yes`.
+### Regla: Verificar `vercel whoami` antes de deployar — pero la cuenta correcta cambió (2026-09-07)
+- **Por qué:** Desde el 2026-07-31 todos los proyectos de Sofia (nuevos y existentes) migraron a la cuenta única del team INFYN (`contacto@infynsolutions.com`, slug `infyn-s-projects`). `vercel whoami` en este repo ahora debe decir **`contacto-9286`**, no `sofiafbravo` — la cuenta personal quedó deprecada para este proyecto. Esta lección decía lo contrario hasta hoy; quedaba desactualizada y habría hecho des-linkear el proyecto correcto.
+- **Cuándo aplica:** Al inicio de cualquier sesión que incluya deploy. Verificar `vercel whoami` = `contacto-9286` y que `.vercel/project.json` tenga `"orgId":"team_nrlobKZKlet4S8v80X9LidE8"` (team `infyn-s-projects`). Si no coincide, `vercel link --project infyn-web --scope infyn-s-projects --yes` — no volver a la cuenta `sofiafbravo`.
 
 ### Regla: `cleanUrls: true` en vercel.json para rutas sin extensión
 - **Por qué:** Sin esta config, Vercel sirve `ejemplos.html` en `/ejemplos.html` pero devuelve 404 en `/ejemplos`. El nav linkea a `/ejemplos`, así que sin `cleanUrls` la página es inaccesible desde el sitio.
