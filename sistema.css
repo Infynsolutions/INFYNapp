@@ -334,13 +334,24 @@
      vez de apilarse debajo — si no, suma altura real y rompe el fold. */
   .hero-grid {
     display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: 56px;
+    grid-template-columns: 1fr 340px;
+    gap: 40px;
     align-items: start;
     padding-bottom: 70px;
   }
   @media (max-width: 1024px) {
     .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+  /* Titular escalado solo en el layout de dos columnas — la columna de
+     texto queda angosta (1fr menos la lámina) y el tamaño global envuelve
+     de más. .hero-headline no se toca porque no se usa fuera del hero.
+     max-width: none también hace falta — el 17ch global se pensó para
+     fragmentos cortos con varios <br>, y con dos líneas largas de ~33
+     caracteres cada una fuerza un wrap extra (4 líneas en vez de 2)
+     sin importar el font-size, porque ch escala junto con la tipografía. */
+  .hero-grid .hero-headline {
+    font-size: clamp(30px, 3.3vw, 47px);
+    max-width: none;
   }
 
   /* ─── Lámina de score: el entregable de la radiografía, en el hero ─── */
