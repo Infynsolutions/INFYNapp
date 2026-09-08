@@ -1012,3 +1012,42 @@
     .paso-texto { grid-column: 1; }
     .footer-nav { gap: 20px; }
   }
+
+  /* ═══ ENTREGABLES (auditoria.html) ═══ */
+  .entregables-lista {
+    list-style: none;
+    border-top: 1px solid var(--linea);
+  }
+  .entregables-lista li {
+    display: flex;
+    gap: 28px;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--linea);
+  }
+  .entregables-lista .entregable-num {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--verde-hoja);
+    letter-spacing: 0.08em;
+    padding-top: 3px;
+    flex-shrink: 0;
+    width: 26px;
+  }
+  .entregables-lista .entregable-texto {
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: var(--tinta-media);
+    max-width: 62ch;
+  }
+  @media (max-width: 860px) {
+    .entregables-lista li { gap: 18px; }
+  }
+
+  /* ═══ FAQ (auditoria.html) ═══ */
+  .faq details { border-top: 1px solid var(--linea); padding: 22px 0; }
+  .faq details:last-of-type { border-bottom: 1px solid var(--linea); }
+  .faq summary { cursor: pointer; font-size: 17px; font-weight: 500; list-style: none; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; float: right; color: var(--verde-hoja); font-weight: 400; }
+  .faq details[open] summary::after { content: '–'; }
+  .faq p { margin-top: 14px; font-size: 15px; line-height: 1.65; color: var(--tinta-media); max-width: 68ch; }
