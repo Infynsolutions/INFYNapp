@@ -328,6 +328,21 @@
     line-height: 1.5;
   }
 
+  /* ─── Hero en dos columnas: texto + lámina de score ───
+     La lámina es un bloque de flujo normal (a diferencia del .hero-arco
+     que reemplaza, que era absolute), así que va al lado del texto en
+     vez de apilarse debajo — si no, suma altura real y rompe el fold. */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 56px;
+    align-items: start;
+    padding-bottom: 70px;
+  }
+  @media (max-width: 1024px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+
   /* ─── Lámina de score: el entregable de la radiografía, en el hero ─── */
   .score-lamina {
     background: var(--crema); color: var(--tinta);
